@@ -30,7 +30,7 @@ jobs:
     
     steps:
     - name: Docker stop
-      run: docker stop portfolioApi
+      run: docker stop portfolioApi  || true
     - name: Docker login
       run: docker login docker.kleinwizard.nl -u Darius -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Docker pull
