@@ -23,9 +23,14 @@ jobs:
 
 
   publish:
-
+  
+    needs: build
+    
     runs-on: self-hosted
+    
     steps:
+    - name: Docker stop
+      run: docker stop portfolioApi  || true
     - name: Docker login
       run: docker login docker.kleinwizard.nl -u Darius -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Docker pull
