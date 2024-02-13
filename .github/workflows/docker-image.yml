@@ -26,6 +26,8 @@ jobs:
 
     runs-on: self-hosted
     steps:
+    - name: Docker login
+      run: docker login docker.kleinwizard.nl -u Darius -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Docker pull
       run: docker pull docker.kleinwizard.nl/portfolio-backend
     - name: Docker run
