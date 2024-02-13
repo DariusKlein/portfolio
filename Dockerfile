@@ -16,4 +16,4 @@ RUN go build .
 EXPOSE 4002
 
 # Define the command to run the app when the container starts
-CMD ["/portfolio-backend"]
+CMD ["./portfolio-backend"]
