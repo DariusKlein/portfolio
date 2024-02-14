@@ -12,6 +12,9 @@ RUN go mod download
 # Build the Go app
 RUN go build .
 
+# Generate orm
+RUN go generate ./ent
+
 # Expose port 8080 for incoming traffic
 EXPOSE 4002
 

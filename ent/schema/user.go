@@ -15,6 +15,8 @@ func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Default("John doe"),
+		field.Enum("role").
+			Values("admin", "user", "visitor"),
 	}
 }
 
