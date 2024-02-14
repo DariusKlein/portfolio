@@ -1,6 +1,11 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+	"portfolio-backend/database"
+
+	"portfolio-backend/api/handler"
+)
 
 func main() {
 
@@ -9,35 +14,13 @@ func main() {
 	mux := http.NewServeMux()
 
 	//connect to database and migrate
-	DB()
+	database.DB()
 
 	// Register the routes and handlers
-	mux.HandleFunc("/", catchAllHandler)
-	mux.HandleFunc("/test", testHandler)
-	mux.HandleFunc("/test2", test2Handler)
+	mux.HandleFunc("/", handler.CatchAllHandler)
+	mux.HandleFunc("/test", handler.TestHandler)
+	mux.HandleFunc("/test2", handler.Test2Handler)
 
 	// Run the server
 	http.ListenAndServe(":4002", mux)
-}
-
-func catchAllHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusGone)
-	_, err := w.Write([]byte("Bad endpoint"))
-	if err != nil {
-		InternalServerErrorHandler(w, r)
-	}
-}
-
-func testHandler(w http.ResponseWriter, r *http.Request) {
-	_, err := w.Write([]byte("test"))
-	if err != nil {
-		InternalServerErrorHandler(w, r)
-	}
-}
-
-func test2Handler(w http.ResponseWriter, r *http.Request) {
-	_, err := w.Write([]byte("test2"))
-	if err != nil {
-		InternalServerErrorHandler(w, r)
-	}
 }

@@ -13,7 +13,7 @@ RUN go mod download
 RUN go build .
 
 # Generate orm
-RUN go generate ./ent
+RUN go generate ./database/ent
 
 # Expose port 8080 for incoming traffic
 EXPOSE 4002
