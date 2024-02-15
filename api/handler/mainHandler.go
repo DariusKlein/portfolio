@@ -1,8 +1,6 @@
 package handler
 
-import (
-	"net/http"
-)
+import "net/http"
 
 func CatchAllHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusGone)

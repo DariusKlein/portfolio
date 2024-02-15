@@ -2,9 +2,8 @@ package main
 
 import (
 	"net/http"
-	"portfolio-backend/database"
-
 	"portfolio-backend/api/handler"
+	"portfolio-backend/database"
 )
 
 func main() {
@@ -18,8 +17,8 @@ func main() {
 
 	// Register the routes and handlers
 	mux.HandleFunc("/", handler.CatchAllHandler)
-	mux.HandleFunc("/test", handler.TestHandler)
-	mux.HandleFunc("/test2", handler.Test2Handler)
+	mux.HandleFunc("POST /user}", handler.CreateUser)
+	mux.HandleFunc("GET /user/{id}", handler.GetUser)
 
 	// Run the server
 	http.ListenAndServe(":4002", mux)

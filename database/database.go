@@ -10,6 +10,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var DBclient *ent.Client
+
 func DB() {
 
 	err := godotenv.Load()
@@ -26,4 +28,6 @@ func DB() {
 	if err := client.Schema.Create(context.Background()); err != nil {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}
+
+	DBclient = client
 }
