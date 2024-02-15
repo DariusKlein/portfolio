@@ -17,3 +17,11 @@ func NotFoundHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func BadRequestHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusBadRequest)
+	_, err := w.Write([]byte("400 Bad Request"))
+	if err != nil {
+		return
+	}
+}

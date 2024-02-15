@@ -17,7 +17,7 @@ func main() {
 
 	// Register the routes and handlers
 	mux.HandleFunc("/", handler.CatchAllHandler)
-	mux.HandleFunc("POST /user}", handler.CreateUser)
+	mux.HandleFunc("POST /user", handler.CreateUser)
 	mux.HandleFunc("GET /user/{id}", handler.GetUser)
 
 	// Run the server
