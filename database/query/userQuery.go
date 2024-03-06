@@ -14,7 +14,6 @@ func GetUser(ctx context.Context, id int) (*ent.User, error) {
 	u, err := database.DBclient.User.
 		Query().
 		Where(user.ID(id)).
-		WithTeams().
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed querying user: %w", err)
