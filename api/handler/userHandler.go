@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"portfolio/backend/database/ent"
-	"portfolio/backend/database/query"
+	"portfolio/database/ent"
+	"portfolio/database/query"
 	"strconv"
 )
 
