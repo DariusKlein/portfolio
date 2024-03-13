@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"portfolio/database/ent"
+	"portfolio/database/ent/user"
 	"portfolio/database/query"
+	"portfolio/service/validate"
 	"strconv"
 )
 
@@ -13,12 +15,26 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	var u *ent.User
 
-	err := json.NewDecoder(r.Body).Decode(&u)
-	if err != nil {
-		InternalServerErrorHandler(w, r)
+	isHtmx := r.Header.Get("HX-Request")
+
+	if isHtmx == "true" {
+		u = &ent.User{
+			Name: r.PostFormValue("name"),
+			Role: user.Role(r.PostFormValue("role")),
+		}
+	} else {
+		err := json.NewDecoder(r.Body).Decode(&u)
+		if err != nil {
+			InternalServerErrorHandler(w)
+		}
 	}
 
-	err = query.CreateUser(context.Background(), *u)
+	if !validate.UserIsValid(u) {
+		BadRequestHandler(w)
+		return
+	}
+
+	err := query.CreateUser(context.Background(), *u)
 	if err != nil {
 		return
 	}
@@ -31,7 +47,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 	userID, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
-		BadRequestHandler(w, r)
+		BadRequestHandler(w)
 	}
 
 	User, err := query.GetUser(context.Background(), userID)
