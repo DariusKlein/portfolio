@@ -1,4 +1,4 @@
-module portfolio-backend
+module portfolio
 
 go 1.22
 

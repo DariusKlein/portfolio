@@ -2,8 +2,8 @@ package main
 
 import (
 	"net/http"
-	"portfolio-backend/api/handler"
-	"portfolio-backend/database"
+	"portfolio/backend/api/handler"
+	"portfolio/backend/database"
 )
 
 func main() {
