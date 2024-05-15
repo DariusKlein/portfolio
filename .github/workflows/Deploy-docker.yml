@@ -23,7 +23,7 @@ jobs:
     - name: Build the Docker image
       run: docker compose build
     - name: Docker push
-      run: docker push docker.kleinwizard.nl/portfolio-api:latest
+      run: docker push docker.dariusklein.nl/portfolio-api:latest
 
 
   publish:
