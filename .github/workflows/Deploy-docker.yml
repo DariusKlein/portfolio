@@ -18,12 +18,12 @@ jobs:
       run: |
         touch .env
         echo DB_STRING=${{ secrets.DB_STRING }} >> .env
-    - name: Docker login
-      run: docker login docker.kleinwizard.nl -u Darius -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
       run: docker compose build
     - name: Docker push
-      run: docker push docker.dariusklein.nl/portfolio-api:latest
+      run: |
+        docker push docker.dariusklein.nl/portfolio-api:latest
+        docker login docker.kleinwizard.nl -u Darius -p ${{ secrets.DOCKER_PASSWORD }}
 
 
   publish:
