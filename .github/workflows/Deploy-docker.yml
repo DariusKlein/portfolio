@@ -21,7 +21,7 @@ jobs:
     - name: Docker login
       run: docker login docker.kleinwizard.nl -u Darius -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag docker.kleinwizard.nl/portfolio:latest
+      run: docker compose build
     - name: Docker push
       run: docker push docker.kleinwizard.nl/portfolio:latest
 
@@ -33,11 +33,19 @@ jobs:
     runs-on: self-hosted
     
     steps:
-    - name: Docker stop
-      run: docker stop portfolioApi  || true
+    - uses: actions/checkout@v3
+      with:
+        sparse-checkout: |
+          docker-compose.yml
+    - name: copy file
+      run: mv docker-compose.yml /home/darius/portfolio
     - name: Docker login
       run: docker login docker.kleinwizard.nl -u Darius -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Docker pull
-      run: docker pull docker.kleinwizard.nl/portfolio
+      run: |
+        cd /home/darius/portfolio
+        docker compose pull
     - name: Docker run
-      run: docker run --rm -d -p 4002:4002 --name portfolioApi docker.kleinwizard.nl/portfolio
+      run: |
+        cd /home/darius/portfolio
+        docker compose up -d

@@ -19,7 +19,9 @@ services:
     ports:
       - "4002:4002"
     restart: unless-stopped
+    image: docker.dariusklein.nl/portfolio-api:latest
     depends_on:
       database:
         condition: service_healthy
+
 
