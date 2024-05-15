@@ -16,6 +16,8 @@ const (
 	FieldID = "id"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
+	// FieldPassword holds the string denoting the password field in the database.
+	FieldPassword = "password"
 	// FieldRole holds the string denoting the role field in the database.
 	FieldRole = "role"
 	// EdgeTeams holds the string denoting the teams edge name in mutations.
@@ -33,6 +35,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldName,
+	FieldPassword,
 	FieldRole,
 }
 
@@ -51,11 +54,6 @@ func ValidColumn(column string) bool {
 	}
 	return false
 }
-
-var (
-	// DefaultName holds the default value on creation for the "name" field.
-	DefaultName string
-)
 
 // Role defines the type for the "role" enum field.
 type Role string
@@ -92,6 +90,11 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByName orders the results by the name field.
 func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
+}
+
+// ByPassword orders the results by the password field.
+func ByPassword(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPassword, opts...).ToFunc()
 }
 
 // ByRole orders the results by the role field.

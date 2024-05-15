@@ -4,7 +4,7 @@ FROM golang:latest
 # Set the working directory to /app
 WORKDIR .
 # Copy the current directory contents into the container at /app
-COPY . .
+COPY .. .
 
 # Download and install any required dependencies
 RUN go mod download

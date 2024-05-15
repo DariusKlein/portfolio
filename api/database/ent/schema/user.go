@@ -15,7 +15,8 @@ type User struct {
 func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
-			Default("John doe"),
+			Unique(),
+		field.String("password"),
 		field.Enum("role").
 			Values("admin", "user", "visitor"),
 	}

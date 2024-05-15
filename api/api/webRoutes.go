@@ -11,6 +11,7 @@ func WebRoutes(mux **http.ServeMux) {
 	m.HandleFunc("GET /{$}", webHandler.InitHomepage)
 	m.HandleFunc("GET /projecten/{$}", webHandler.InitProjectpage)
 	m.HandleFunc("GET /about/{$}", webHandler.InitAboutpage)
+	m.HandleFunc("GET /login/{$}", webHandler.InitLoginpage)
 
 	m.HandleFunc("POST /theme", webHandler.UpdateTheme)
 

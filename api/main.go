@@ -15,7 +15,7 @@ func main() {
 		log.Fatalf(".env not found: %v", err)
 		return
 	}
-
+	print("test")
 	// Create a new request multiplexer
 	// Take incoming requests and dispatch them to the matching webHandler
 	mux := http.NewServeMux()
