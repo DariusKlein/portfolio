@@ -3,7 +3,7 @@ package webHandler
 import (
 	"html/template"
 	"net/http"
-	"portfolio/types"
+	"portfolio_api/types"
 )
 
 func InitProjectpage(w http.ResponseWriter, r *http.Request) {

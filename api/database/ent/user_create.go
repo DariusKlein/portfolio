@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"portfolio/database/ent/team"
-	"portfolio/database/ent/user"
+	"portfolio_api/database/ent/team"
+	"portfolio_api/database/ent/user"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"

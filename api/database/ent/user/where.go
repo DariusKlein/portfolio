@@ -3,7 +3,7 @@
 package user
 
 import (
-	"portfolio/database/ent/predicate"
+	"portfolio_api/database/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

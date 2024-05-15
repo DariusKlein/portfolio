@@ -2,7 +2,7 @@ package api
 
 import (
 	"net/http"
-	"portfolio/api/handler"
+	"portfolio_api/api/handler"
 )
 
 func ApiRoutes(mux **http.ServeMux) {

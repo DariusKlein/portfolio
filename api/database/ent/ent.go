@@ -6,9 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"portfolio/database/ent/project"
-	"portfolio/database/ent/team"
-	"portfolio/database/ent/user"
+	"portfolio_api/database/ent/project"
+	"portfolio_api/database/ent/team"
+	"portfolio_api/database/ent/user"
 	"reflect"
 	"sync"
 

@@ -2,7 +2,7 @@ package api
 
 import (
 	"net/http"
-	"portfolio/api/webHandler"
+	"portfolio_api/api/webHandler"
 )
 
 func WebRoutes(mux **http.ServeMux) {

@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"portfolio/database/ent/team"
+	"portfolio_api/database/ent/team"
 	"strings"
 
 	"entgo.io/ent"

@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"portfolio/database/ent/predicate"
-	"portfolio/database/ent/user"
+	"portfolio_api/database/ent/predicate"
+	"portfolio_api/database/ent/user"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

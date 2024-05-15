@@ -4,11 +4,11 @@ package enttest
 
 import (
 	"context"
-	"portfolio/database/ent"
+	"portfolio_api/database/ent"
 	// required by schema hooks.
-	_ "portfolio/database/ent/runtime"
+	_ "portfolio_api/database/ent/runtime"
 
-	"portfolio/database/ent/migrate"
+	"portfolio_api/database/ent/migrate"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

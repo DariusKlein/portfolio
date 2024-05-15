@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"portfolio/database/ent"
-	"portfolio/database/ent/user"
-	"portfolio/database/query"
-	"portfolio/service/validate"
+	"portfolio_api/database/ent"
+	"portfolio_api/database/ent/user"
+	"portfolio_api/database/query"
+	"portfolio_api/service/validate"
 	"strconv"
 )
 

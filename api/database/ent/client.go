@@ -9,11 +9,11 @@ import (
 	"log"
 	"reflect"
 
-	"portfolio/database/ent/migrate"
+	"portfolio_api/database/ent/migrate"
 
-	"portfolio/database/ent/project"
-	"portfolio/database/ent/team"
-	"portfolio/database/ent/user"
+	"portfolio_api/database/ent/project"
+	"portfolio_api/database/ent/team"
+	"portfolio_api/database/ent/user"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

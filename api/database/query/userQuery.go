@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"portfolio/database"
-	"portfolio/database/ent"
-	"portfolio/database/ent/user"
+	"portfolio_api/database"
+	"portfolio_api/database/ent"
+	"portfolio_api/database/ent/user"
 )
 
 func GetUser(ctx context.Context, id int) (*ent.User, error) {

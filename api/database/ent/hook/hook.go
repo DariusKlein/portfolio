@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"portfolio/database/ent"
+	"portfolio_api/database/ent"
 )
 
 // The ProjectFunc type is an adapter to allow the use of ordinary

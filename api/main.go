@@ -4,8 +4,8 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
-	api2 "portfolio/api"
-	"portfolio/database"
+	api2 "portfolio_api/api"
+	"portfolio_api/database"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 		log.Fatalf(".env not found: %v", err)
 		return
 	}
-	print("test")
+
 	// Create a new request multiplexer
 	// Take incoming requests and dispatch them to the matching webHandler
 	mux := http.NewServeMux()

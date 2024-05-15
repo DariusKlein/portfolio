@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"portfolio/database/ent"
-	"portfolio/database/ent/user"
-	"portfolio/database/query"
-	"portfolio/service/bcrypt"
+	"portfolio_api/database/ent"
+	"portfolio_api/database/ent/user"
+	"portfolio_api/database/query"
+	"portfolio_api/service/bcrypt"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {

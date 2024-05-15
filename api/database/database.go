@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
-	"portfolio/database/ent"
+	"portfolio_api/database/ent"
 
 	_ "github.com/go-sql-driver/mysql"
 )

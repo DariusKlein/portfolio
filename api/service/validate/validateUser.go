@@ -1,7 +1,7 @@
 package validate
 
 import (
-	"portfolio/database/ent"
+	"portfolio_api/database/ent"
 )
 
 func UserIsValid(u *ent.User) bool {
