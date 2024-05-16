@@ -2,7 +2,7 @@ package web
 
 import (
 	"net/http"
-	"portfolio/web/handlers"
+	handlers2 "portfolio/api/handlers"
 )
 
 func WebRoutes() *http.ServeMux {
@@ -11,14 +11,7 @@ func WebRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	// Register the routes and webHandler
-	mux.HandleFunc("GET /{$}", handlers.InitHomepage)
-	mux.HandleFunc("GET /projecten/{$}", handlers.InitProjectpage)
-	mux.HandleFunc("GET /about/{$}", handlers.InitAboutpage)
-	mux.HandleFunc("GET /login/{$}", handlers.InitLoginpage)
-
-	mux.HandleFunc("POST /theme", handlers.UpdateTheme)
-
-	mux.HandleFunc("GET /test", handlers.Test)
+	mux.HandleFunc("/", handlers2.CatchAllHandler)
 
 	return mux
 }
