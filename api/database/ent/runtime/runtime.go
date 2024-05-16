@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in portfolio/database/ent/runtime.go
+// The schema-stitching logic is generated in portfolio_api/database/ent/runtime.go
 
 const (
 	Version = "v0.13.1"                                         // Version of ent codegen.
