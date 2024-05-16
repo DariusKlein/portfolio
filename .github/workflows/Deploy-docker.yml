@@ -16,8 +16,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: 'Create env file'
       run: |
-        touch .env
-        echo DB_STRING=${{ secrets.DB_STRING }} >> .env
+        touch api/.env
+        echo DB_STRING=${{ secrets.DB_STRING }} >> api/.env
     - name: Build the Docker image
       run: docker compose build
     - name: Docker push
