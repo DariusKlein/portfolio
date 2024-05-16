@@ -12,7 +12,7 @@ RUN mkdir /opt/sources
 
 WORKDIR /opt/sources
 
-COPY --from=openApiGen /go/common/docs/openApi.json ./Writerside
+COPY --from=openApiGen /go/common/docs/openApi.json .
 
 ADD ./common/docs ./Writerside
 

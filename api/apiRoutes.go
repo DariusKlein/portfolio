@@ -1,4 +1,4 @@
-package routes
+package api
 
 import (
 	"net/http"
@@ -11,7 +11,7 @@ func ApiRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	// Register the routes and webHandler
-	mux.HandleFunc("/api/", handlers.CatchAllHandler)
+	mux.HandleFunc("/", handlers.CatchAllHandler)
 	mux.HandleFunc("POST /api/user", handlers.CreateUser)
 	mux.HandleFunc("GET /api/user/{id}", handlers.GetUser)
 	mux.HandleFunc("POST /api/login", handlers.Login)

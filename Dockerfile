@@ -17,6 +17,7 @@ RUN go generate ./database/ent
 
 # Expose port 8080 for incoming traffic
 EXPOSE 4002
+EXPOSE 4001
 
 # Define the command to run the app when the container starts
 CMD ["./portfolio"]

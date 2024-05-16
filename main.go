@@ -4,8 +4,9 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
+	"portfolio/api"
 	"portfolio/database"
-	"portfolio/routes"
+	"portfolio/web"
 )
 
 func main() {
@@ -16,23 +17,17 @@ func main() {
 		return
 	}
 
-	//init web routes
-	web := routes.WebRoutes()
-	//init api routes
-	api := routes.ApiRoutes()
-
 	//connect to database and migrate
 	database.DB()
 
-	// Run the server
-	err = http.ListenAndServe(":4001", web)
-	if err != nil {
-		log.Fatalf("web failed to start: %v", err)
-		return
-	}
-	err = http.ListenAndServe(":4002", api)
-	if err != nil {
-		log.Fatalf("api failed to start: %v", err)
-		return
-	}
+	//init web routes
+	web := web.WebRoutes()
+	// Run web server
+	go http.ListenAndServe(":4001", web)
+
+	//init api routes
+	api := api.ApiRoutes()
+	//run api server
+	http.ListenAndServe(":4002", api)
+
 }
