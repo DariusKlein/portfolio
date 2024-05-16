@@ -21,13 +21,13 @@ func main() {
 	database.DB()
 
 	//init web routes
-	web := web.WebRoutes()
+	webMux := web.WebRoutes()
 	// Run web server
-	go http.ListenAndServe(":4001", web)
+	go http.ListenAndServe(":4000", webMux)
 
 	//init api routes
-	api := api.ApiRoutes()
+	apiMux := api.ApiRoutes()
 	//run api server
-	http.ListenAndServe(":4002", api)
+	http.ListenAndServe(":4001", apiMux)
 
 }

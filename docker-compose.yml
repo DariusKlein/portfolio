@@ -17,7 +17,7 @@ services:
   portfolio:
     build: .
     ports:
-      - "4002:4002"
+      - "4000:4000"
       - "4001:4001"
     restart: unless-stopped
     image: docker.dariusklein.nl/portfolio:latest
@@ -30,7 +30,7 @@ services:
       context: .
       dockerfile: ./common/docs/Dockerfile
     ports:
-      - "4003:80"
+      - "4002:80"
     restart: unless-stopped
     image: docker.dariusklein.nl/portfolio-docs:latest
 
