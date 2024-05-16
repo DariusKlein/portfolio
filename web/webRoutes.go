@@ -2,7 +2,7 @@ package web
 
 import (
 	"net/http"
-	handlers2 "portfolio/api/handlers"
+	"portfolio/web/handlers"
 )
 
 func WebRoutes() *http.ServeMux {
@@ -11,7 +11,8 @@ func WebRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	// Register the routes and webHandler
-	mux.HandleFunc("/", handlers2.CatchAllHandler)
+	mux.HandleFunc("/", handlers.HomePageHandler)
 
+	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./web/assets"))))
 	return mux
 }
