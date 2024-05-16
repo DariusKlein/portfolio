@@ -14,12 +14,12 @@ services:
       timeout: 5s
       retries: 5
 
-  api:
-    build: ./api
+  portfolio:
+    build: .
     ports:
       - "4002:4002"
     restart: unless-stopped
-    image: docker.dariusklein.nl/portfolio-api:latest
+    image: docker.dariusklein.nl/portfolio:latest
     depends_on:
       database:
         condition: service_healthy
