@@ -24,3 +24,13 @@ services:
       database:
         condition: service_healthy
 
+  docs:
+    build: .
+    ports:
+      - "4003:80"
+    restart: unless-stopped
+    image: docker.dariusklein.nl/portfolio:latest
+    depends_on:
+      database:
+        condition: service_healthy
+

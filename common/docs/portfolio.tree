@@ -4,6 +4,11 @@
 
 <instance-profile id="portfolio"
                  name="portfolio"
->
+                  start-page="test.md">
 
+    <toc-element topic="test.md"/>
+    <toc-element topic="API_Reference.md">
+        <toc-element topic="Schemas.md"/>
+        <toc-element topic="nfc_uid_GET.md"/>
+    </toc-element>
 </instance-profile>
