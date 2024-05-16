@@ -17,7 +17,7 @@ jobs:
     - name: 'Create env file'
       run: |
         touch .env
-        echo DB_STRING=${{ secrets.DB_STRING }} >> api/.env
+        echo DB_STRING=${{ secrets.DB_STRING }} >> .env
     - name: Build the Docker image
       run: docker compose build
     - name: Docker push
