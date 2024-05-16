@@ -1,14 +1,14 @@
-package webHandler
+package handlers
 
 import (
 	"html/template"
 	"net/http"
 )
 
-func InitAboutpage(w http.ResponseWriter, r *http.Request) {
+func InitLoginpage(w http.ResponseWriter, r *http.Request) {
 
 	tmpl := template.Must(template.ParseFiles(
-		"./templates/about/index.html",
+		"./templates/login/index.html",
 		"./templates/navbar/index.html",
 		"./templates/themeSelector/index.html",
 	))

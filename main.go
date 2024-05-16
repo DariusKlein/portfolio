@@ -4,8 +4,8 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
-	"portfolio/api"
 	"portfolio/database"
+	"portfolio/routes"
 )
 
 func main() {
@@ -16,17 +16,23 @@ func main() {
 		return
 	}
 
-	// Create a new request multiplexer
-	// Take incoming requests and dispatch them to the matching webHandler
-	mux := http.NewServeMux()
-
-	api.WebRoutes(&mux)
-
-	api.ApiRoutes(&mux)
+	//init web routes
+	web := routes.WebRoutes()
+	//init api routes
+	api := routes.ApiRoutes()
 
 	//connect to database and migrate
 	database.DB()
 
 	// Run the server
-	http.ListenAndServe(":4002", mux)
+	err = http.ListenAndServe(":4001", web)
+	if err != nil {
+		log.Fatalf("web failed to start: %v", err)
+		return
+	}
+	err = http.ListenAndServe(":4002", api)
+	if err != nil {
+		log.Fatalf("api failed to start: %v", err)
+		return
+	}
 }

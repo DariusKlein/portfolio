@@ -1,9 +1,9 @@
-package webHandler
+package handlers
 
 import (
 	"html/template"
 	"net/http"
-	"portfolio/types"
+	"portfolio/api/types"
 )
 
 func InitProjectpage(w http.ResponseWriter, r *http.Request) {

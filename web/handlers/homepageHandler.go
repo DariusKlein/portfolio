@@ -1,4 +1,4 @@
-package webHandler
+package handlers
 
 import (
 	"html/template"
