@@ -12,6 +12,8 @@ func WebRoutes() *http.ServeMux {
 
 	// Register the routes and webHandler
 	mux.HandleFunc("/", handlers.HomePageHandler)
+	mux.HandleFunc("/projects", handlers.ProjectPageHandler)
+	mux.HandleFunc("/about", handlers.HomePageHandler)
 
 	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./web/assets"))))
 	return mux
