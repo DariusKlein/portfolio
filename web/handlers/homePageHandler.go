@@ -4,7 +4,6 @@ import (
 	g "github.com/maragudk/gomponents"
 	. "github.com/maragudk/gomponents/html"
 	"net/http"
-	"portfolio/web/components"
 )
 
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,12 +15,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func createHomeBody(w http.ResponseWriter, r *http.Request) []g.Node {
+func createHomeBody(w http.ResponseWriter, r *http.Request) g.Node {
 
-	return []g.Node{
-		components.Navbar(),
-		Main(
-			ID("main"),
-		),
-	}
+	return Body()
 }
