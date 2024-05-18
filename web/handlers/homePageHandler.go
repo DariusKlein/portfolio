@@ -2,6 +2,7 @@ package handlers
 
 import (
 	g "github.com/maragudk/gomponents"
+	. "github.com/maragudk/gomponents/html"
 	"net/http"
 	"portfolio/web/components"
 )
@@ -19,5 +20,8 @@ func createHomeBody(w http.ResponseWriter, r *http.Request) []g.Node {
 
 	return []g.Node{
 		components.Navbar(),
+		Main(
+			ID("main"),
+		),
 	}
 }

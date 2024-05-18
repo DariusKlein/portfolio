@@ -1,2 +1,4 @@
 **.env
 /.idea/
+**/css/
+!**/css/style.css

@@ -1,0 +1,15 @@
+// Set your brand colors
+$custom-primary: #abc7ff;
+$custom-link: #edb1ff;
+$custom-info: #6715ef;
+
+
+// Path to Bulma's sass folder
+@use "sass" with (
+  $primary: $custom-primary,
+  $info: $custom-info,
+  $link: $custom-link,
+);
+
+// Import the Google Font
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
