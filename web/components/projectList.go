@@ -1,30 +1,36 @@
 package components
 
 import (
+	"github.com/delaneyj/gomponents-iconify/iconify/mdi"
 	g "github.com/maragudk/gomponents"
-	c "github.com/maragudk/gomponents/components"
 	. "github.com/maragudk/gomponents/html"
+	b "github.com/willoma/bulma-gomponents"
+	e "github.com/willoma/gomplements"
 	"portfolio/web/types"
 )
 
 func ProjectList(projects []types.Project) g.Node {
-	return Nav(Class("bg-gray-700 mb-4"),
-		container(
-			Div(Class("flex items-center space-x-4 h-16"),
-				// We can Map custom slices to Nodes
-				g.Group(g.Map(projects, func(p types.Project) g.Node {
-					return Project(p)
-				})),
-			),
-		),
+	return Div(Class("py-2 px-2"), g.Group(g.Map(projects, func(p types.Project) g.Node {
+		return Project(p)
+	})),
 	)
 }
 
 func Project(project types.Project) g.Node {
-	return A(g.Text(project.Name),
-		// Apply CSS classes conditionally
-		c.Classes{
-			"px-3 py-2 rounded-md text-sm font-medium focus:outline-none focus:text-white focus:bg-gray-700": true,
-		},
+	return b.Card(
+		b.Media(
+			b.MediaLeft(
+				b.ImageImg(
+					project.ImageUrl,
+					e.Alt("project image"),
+					b.ImgSq64,
+				),
+			),
+			b.Title(4, project.Name),
+			b.Subtitle(6, A(Class("flex"), Href(project.Url), mdi.Github(), g.Text("checkout repo"))),
+		),
+		b.Content(
+			project.Description,
+		),
 	)
 }

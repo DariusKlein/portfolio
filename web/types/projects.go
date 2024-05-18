@@ -1,7 +1,7 @@
 package types
 
 type Projects struct {
-	projects []Project
+	Projects []Project `json:"projects"`
 }
 
 type Project struct {

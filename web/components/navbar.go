@@ -12,24 +12,24 @@ func Navbar() g.Node {
 		e.AriaLabel("main navigation"),
 		b.NavbarBrand(
 			b.NavbarAHref(
-				"https://bulma.io",
+				"/",
 				e.ImgSrc(
-					"https://bulma.io/assets/images/bulma-logo.png",
-					e.Width("112"), e.Height("28"),
+					"/assets/images/favicon.ico",
 				),
 			),
 		),
 		b.NavbarStart(
-			b.NavbarAHref("#", "Home"),
-			b.NavbarAHref("#", "Documentation"),
+			b.NavbarAHref("/", "Home"),
+			b.NavbarAHref("/about", "Wie ben ik"),
+			b.NavbarAHref("/projects", "projecten"),
 			b.NavbarDropdown(
-				"More",
+				"placeholder",
 				b.Hoverable,
-				b.NavbarAHref("#", "About"),
-				b.NavbarAHref("#", "Jobs"),
-				b.NavbarAHref("#", "Contact"),
+				b.NavbarAHref("#1", "item 1"),
+				b.NavbarAHref("#2", "item 2"),
+				b.NavbarAHref("#3", "item 3"),
 				b.NavbarDivider(),
-				b.NavbarAHref("#", "Report an issue"),
+				b.NavbarAHref("#4", "divided item"),
 			),
 		),
 		b.NavbarEnd(
@@ -37,10 +37,6 @@ func Navbar() g.Node {
 				b.Buttons(
 					b.ButtonA(
 						b.Primary,
-						e.Strong("Sign up"),
-					),
-					b.ButtonA(
-						b.Light,
 						"Log in",
 					),
 				),
