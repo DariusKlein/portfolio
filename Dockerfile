@@ -20,6 +20,7 @@ FROM gcr.io/distroless/base-debian12
 COPY --from=build /go/portfolio .
 
 ADD .env .
+ADD ./web/assets ./web/assets
 
 # Expose port 8080 for incoming traffic
 EXPOSE 4000
