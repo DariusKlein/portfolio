@@ -1,4 +1,5 @@
 **.env
 /.idea/
-**/css/sass/
-
+**/sass/*/**.css
+**/sass/*/**.css.map
+!**/css/style.css
