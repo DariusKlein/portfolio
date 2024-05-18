@@ -27,10 +27,13 @@ func Project(project types.Project) g.Node {
 				),
 			),
 			b.Title(4, project.Name),
-			b.Subtitle(6, A(Class("flex"), Href(project.Url), mdi.Github(), g.Text("checkout repo"))),
+			b.Subtitle(
+				6,
+				A(Class("flex"), Href(project.Url), mdi.Github(), g.Text("Checkout repo")),
+				A(Class("flex"), Href(project.DocUrl), mdi.Document(), g.Text("Docs"))),
 		),
 		b.Content(
-			project.Description,
+			g.Raw(project.Description),
 		),
 	)
 }

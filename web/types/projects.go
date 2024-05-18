@@ -9,4 +9,5 @@ type Project struct {
 	Description string `json:"description"`
 	Url         string `json:"url"`
 	ImageUrl    string `json:"image_url"`
+	DocUrl      string `json:"doc_url"`
 }

@@ -4,19 +4,22 @@
       "Name": "Portfolio",
       "Url": "https://github.com/DariusKlein/portfolio",
       "Description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam gravida, ante scelerisque ultrices condimentum, mi lacus ornare justo, ac elementum tellus leo sed erat. Sed euismod turpis eu viverra lacinia. Maecenas laoreet diam sed urna porttitor posuere ac eu mauris. Vestibulum blandit magna enim, sed ultricies sapien rutrum convallis. Nullam id posuere enim. Maecenas sed aliquam lorem. Praesent vitae ligula et nisl venenatis finibus. Vivamus auctor aliquet libero, at ornare lorem. Maecenas odio augue, tincidunt ut quam in, vestibulum malesuada nulla. Integer fringilla orci et ipsum commodo, id commodo metus bibendum. Proin volutpat lectus turpis, ut finibus eros blandit eu. Quisque sed libero ac ligula dapibus dignissim. Quisque vitae arcu a orci suscipit hendrerit. Duis ac tellus vel mi blandit consequat eget non ligula. Aliquam quis luctus nisl, eu mattis nulla. Sed sem turpis, malesuada id ex non, placerat aliquet tellus.",
-      "image_url": "https://bulma.io/assets/images/placeholders/96x96.png"
+      "image_url": "https://bulma.io/assets/images/placeholders/96x96.png",
+      "doc_url": "https://docs.portfolio.dariusklein.nl"
     },
     {
       "Name": "Discord bot",
       "Url": "https://github.com/DariusKlein/kleincordBot",
       "Description": "Maecenas dictum eu neque sit amet ullamcorper. Maecenas venenatis porttitor sapien, et dapibus justo. Maecenas facilisis suscipit erat. Nulla placerat nibh tortor, ac eleifend enim mollis et. In fermentum lacus malesuada convallis sollicitudin. Nunc accumsan fermentum venenatis. Cras vel elit eu nibh euismod scelerisque. Sed efficitur turpis mi, vel viverra arcu accumsan id. Nunc venenatis ex et arcu posuere mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam tortor nisl, vestibulum vel feugiat a, egestas ut massa. Donec sagittis purus eu ornare bibendum. Morbi interdum arcu et aliquam pulvinar. Phasellus et augue feugiat, gravida felis ut, consectetur velit.",
-      "image_url": "https://bulma.io/assets/images/placeholders/96x96.png"
+      "image_url": "https://bulma.io/assets/images/placeholders/96x96.png",
+      "doc_url": "https://docs.kleincord.dariusklein.nl"
     },
     {
       "Name": "Wazuh notifier",
       "Url": "https://github.com/RudiKlein/wazuh-notifier",
       "Description": "Proin sollicitudin hendrerit dolor ut venenatis. Etiam quis elit turpis. Maecenas imperdiet sapien a lorem finibus feugiat. Aenean quis faucibus quam. Donec eu libero ut lectus tempus tempus. Maecenas et imperdiet quam. Donec ligula lacus, hendrerit facilisis ornare nec, varius ac dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam efficitur, nunc eget mollis tristique, eros mi varius mauris, quis cursus nisi justo ac nisl. Nullam eget laoreet dui. Phasellus placerat, nibh a euismod maximus, turpis odio bibendum mi, sed imperdiet justo lacus volutpat augue. Mauris rutrum orci at libero interdum gravida. In eget commodo elit. Mauris nec felis augue. Aenean nec orci turpis.",
-      "image_url": "https://bulma.io/assets/images/placeholders/96x96.png"
+      "image_url": "https://bulma.io/assets/images/placeholders/96x96.png",
+      "doc_url": "https://docs.notifier.kleinsense.nl"
     }
   ]
 }
