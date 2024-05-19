@@ -13,6 +13,7 @@ func Page(title string, body g.Node) g.Node {
 		Title:    title,
 		Language: "en",
 		Head: []g.Node{
+			Meta(Name("htmx-config"), Content("{\"withCredentials\":\"true\"}")),
 			Script(Src("https://cdn.tailwindcss.com?plugins=typography")),
 			Script(Src("https://unpkg.com/htmx.org")),
 			Link(Rel("icon"), Type("image/x-icon"), Href("assets/images/favicon.ico")),

@@ -27,7 +27,7 @@ func main() {
 	go http.ListenAndServe(":4000", cors.AllowAll().Handler(webMux))
 
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
+		AllowedOrigins: []string{"http://localhost:4000", "https://*.dariusklein.nl"},
 		AllowedMethods: []string{
 			http.MethodHead,
 			http.MethodGet,
