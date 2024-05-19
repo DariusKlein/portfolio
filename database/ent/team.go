@@ -26,8 +26,8 @@ type Team struct {
 
 // TeamEdges holds the relations/edges for other nodes in the graph.
 type TeamEdges struct {
-	// Project holds the value of the project edge.
-	Project []*Project `json:"project,omitempty"`
+	// Projects holds the value of the projects edge.
+	Projects []*Project `json:"projects,omitempty"`
 	// Users holds the value of the users edge.
 	Users []*User `json:"users,omitempty"`
 	// loadedTypes holds the information for reporting if a
@@ -35,13 +35,13 @@ type TeamEdges struct {
 	loadedTypes [2]bool
 }
 
-// ProjectOrErr returns the Project value or an error if the edge
+// ProjectsOrErr returns the Projects value or an error if the edge
 // was not loaded in eager-loading.
-func (e TeamEdges) ProjectOrErr() ([]*Project, error) {
+func (e TeamEdges) ProjectsOrErr() ([]*Project, error) {
 	if e.loadedTypes[0] {
-		return e.Project, nil
+		return e.Projects, nil
 	}
-	return nil, &NotLoadedError{edge: "project"}
+	return nil, &NotLoadedError{edge: "projects"}
 }
 
 // UsersOrErr returns the Users value or an error if the edge
@@ -102,9 +102,9 @@ func (t *Team) Value(name string) (ent.Value, error) {
 	return t.selectValues.Get(name)
 }
 
-// QueryProject queries the "project" edge of the Team entity.
-func (t *Team) QueryProject() *ProjectQuery {
-	return NewTeamClient(t.config).QueryProject(t)
+// QueryProjects queries the "projects" edge of the Team entity.
+func (t *Team) QueryProjects() *ProjectQuery {
+	return NewTeamClient(t.config).QueryProjects(t)
 }
 
 // QueryUsers queries the "users" edge of the Team entity.

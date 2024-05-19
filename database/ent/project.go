@@ -5,7 +5,6 @@ package ent
 import (
 	"fmt"
 	"portfolio/database/ent/project"
-	"portfolio/database/ent/team"
 	"strings"
 
 	"entgo.io/ent"
@@ -19,31 +18,47 @@ type Project struct {
 	ID int `json:"id,omitempty"`
 	// Name holds the value of the "name" field.
 	Name string `json:"name,omitempty"`
+	// Description holds the value of the "description" field.
+	Description string `json:"description,omitempty"`
+	// URL holds the value of the "url" field.
+	URL string `json:"url,omitempty"`
+	// ImageURL holds the value of the "image_url" field.
+	ImageURL string `json:"image_url,omitempty"`
+	// DocURL holds the value of the "doc_url" field.
+	DocURL string `json:"doc_url,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the ProjectQuery when eager-loading is set.
 	Edges        ProjectEdges `json:"edges"`
-	team_project *int
 	selectValues sql.SelectValues
 }
 
 // ProjectEdges holds the relations/edges for other nodes in the graph.
 type ProjectEdges struct {
-	// Team holds the value of the team edge.
-	Team *Team `json:"team,omitempty"`
+	// Users holds the value of the users edge.
+	Users []*User `json:"users,omitempty"`
+	// Teams holds the value of the teams edge.
+	Teams []*Team `json:"teams,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [1]bool
+	loadedTypes [2]bool
 }
 
-// TeamOrErr returns the Team value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e ProjectEdges) TeamOrErr() (*Team, error) {
-	if e.Team != nil {
-		return e.Team, nil
-	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: team.Label}
+// UsersOrErr returns the Users value or an error if the edge
+// was not loaded in eager-loading.
+func (e ProjectEdges) UsersOrErr() ([]*User, error) {
+	if e.loadedTypes[0] {
+		return e.Users, nil
 	}
-	return nil, &NotLoadedError{edge: "team"}
+	return nil, &NotLoadedError{edge: "users"}
+}
+
+// TeamsOrErr returns the Teams value or an error if the edge
+// was not loaded in eager-loading.
+func (e ProjectEdges) TeamsOrErr() ([]*Team, error) {
+	if e.loadedTypes[1] {
+		return e.Teams, nil
+	}
+	return nil, &NotLoadedError{edge: "teams"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -53,10 +68,8 @@ func (*Project) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case project.FieldID:
 			values[i] = new(sql.NullInt64)
-		case project.FieldName:
+		case project.FieldName, project.FieldDescription, project.FieldURL, project.FieldImageURL, project.FieldDocURL:
 			values[i] = new(sql.NullString)
-		case project.ForeignKeys[0]: // team_project
-			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -84,12 +97,29 @@ func (pr *Project) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				pr.Name = value.String
 			}
-		case project.ForeignKeys[0]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field team_project", value)
+		case project.FieldDescription:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				pr.team_project = new(int)
-				*pr.team_project = int(value.Int64)
+				pr.Description = value.String
+			}
+		case project.FieldURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field url", values[i])
+			} else if value.Valid {
+				pr.URL = value.String
+			}
+		case project.FieldImageURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field image_url", values[i])
+			} else if value.Valid {
+				pr.ImageURL = value.String
+			}
+		case project.FieldDocURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field doc_url", values[i])
+			} else if value.Valid {
+				pr.DocURL = value.String
 			}
 		default:
 			pr.selectValues.Set(columns[i], values[i])
@@ -104,9 +134,14 @@ func (pr *Project) Value(name string) (ent.Value, error) {
 	return pr.selectValues.Get(name)
 }
 
-// QueryTeam queries the "team" edge of the Project entity.
-func (pr *Project) QueryTeam() *TeamQuery {
-	return NewProjectClient(pr.config).QueryTeam(pr)
+// QueryUsers queries the "users" edge of the Project entity.
+func (pr *Project) QueryUsers() *UserQuery {
+	return NewProjectClient(pr.config).QueryUsers(pr)
+}
+
+// QueryTeams queries the "teams" edge of the Project entity.
+func (pr *Project) QueryTeams() *TeamQuery {
+	return NewProjectClient(pr.config).QueryTeams(pr)
 }
 
 // Update returns a builder for updating this Project.
@@ -134,6 +169,18 @@ func (pr *Project) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v, ", pr.ID))
 	builder.WriteString("name=")
 	builder.WriteString(pr.Name)
+	builder.WriteString(", ")
+	builder.WriteString("description=")
+	builder.WriteString(pr.Description)
+	builder.WriteString(", ")
+	builder.WriteString("url=")
+	builder.WriteString(pr.URL)
+	builder.WriteString(", ")
+	builder.WriteString("image_url=")
+	builder.WriteString(pr.ImageURL)
+	builder.WriteString(", ")
+	builder.WriteString("doc_url=")
+	builder.WriteString(pr.DocURL)
 	builder.WriteByte(')')
 	return builder.String()
 }

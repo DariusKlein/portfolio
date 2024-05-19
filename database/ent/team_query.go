@@ -20,12 +20,12 @@ import (
 // TeamQuery is the builder for querying Team entities.
 type TeamQuery struct {
 	config
-	ctx         *QueryContext
-	order       []team.OrderOption
-	inters      []Interceptor
-	predicates  []predicate.Team
-	withProject *ProjectQuery
-	withUsers   *UserQuery
+	ctx          *QueryContext
+	order        []team.OrderOption
+	inters       []Interceptor
+	predicates   []predicate.Team
+	withProjects *ProjectQuery
+	withUsers    *UserQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -62,8 +62,8 @@ func (tq *TeamQuery) Order(o ...team.OrderOption) *TeamQuery {
 	return tq
 }
 
-// QueryProject chains the current query on the "project" edge.
-func (tq *TeamQuery) QueryProject() *ProjectQuery {
+// QueryProjects chains the current query on the "projects" edge.
+func (tq *TeamQuery) QueryProjects() *ProjectQuery {
 	query := (&ProjectClient{config: tq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := tq.prepareQuery(ctx); err != nil {
@@ -76,7 +76,7 @@ func (tq *TeamQuery) QueryProject() *ProjectQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(team.Table, team.FieldID, selector),
 			sqlgraph.To(project.Table, project.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, team.ProjectTable, team.ProjectColumn),
+			sqlgraph.Edge(sqlgraph.M2M, false, team.ProjectsTable, team.ProjectsPrimaryKey...),
 		)
 		fromU = sqlgraph.SetNeighbors(tq.driver.Dialect(), step)
 		return fromU, nil
@@ -293,27 +293,27 @@ func (tq *TeamQuery) Clone() *TeamQuery {
 		return nil
 	}
 	return &TeamQuery{
-		config:      tq.config,
-		ctx:         tq.ctx.Clone(),
-		order:       append([]team.OrderOption{}, tq.order...),
-		inters:      append([]Interceptor{}, tq.inters...),
-		predicates:  append([]predicate.Team{}, tq.predicates...),
-		withProject: tq.withProject.Clone(),
-		withUsers:   tq.withUsers.Clone(),
+		config:       tq.config,
+		ctx:          tq.ctx.Clone(),
+		order:        append([]team.OrderOption{}, tq.order...),
+		inters:       append([]Interceptor{}, tq.inters...),
+		predicates:   append([]predicate.Team{}, tq.predicates...),
+		withProjects: tq.withProjects.Clone(),
+		withUsers:    tq.withUsers.Clone(),
 		// clone intermediate query.
 		sql:  tq.sql.Clone(),
 		path: tq.path,
 	}
 }
 
-// WithProject tells the query-builder to eager-load the nodes that are connected to
-// the "project" edge. The optional arguments are used to configure the query builder of the edge.
-func (tq *TeamQuery) WithProject(opts ...func(*ProjectQuery)) *TeamQuery {
+// WithProjects tells the query-builder to eager-load the nodes that are connected to
+// the "projects" edge. The optional arguments are used to configure the query builder of the edge.
+func (tq *TeamQuery) WithProjects(opts ...func(*ProjectQuery)) *TeamQuery {
 	query := (&ProjectClient{config: tq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	tq.withProject = query
+	tq.withProjects = query
 	return tq
 }
 
@@ -407,7 +407,7 @@ func (tq *TeamQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Team, e
 		nodes       = []*Team{}
 		_spec       = tq.querySpec()
 		loadedTypes = [2]bool{
-			tq.withProject != nil,
+			tq.withProjects != nil,
 			tq.withUsers != nil,
 		}
 	)
@@ -429,10 +429,10 @@ func (tq *TeamQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Team, e
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := tq.withProject; query != nil {
-		if err := tq.loadProject(ctx, query, nodes,
-			func(n *Team) { n.Edges.Project = []*Project{} },
-			func(n *Team, e *Project) { n.Edges.Project = append(n.Edges.Project, e) }); err != nil {
+	if query := tq.withProjects; query != nil {
+		if err := tq.loadProjects(ctx, query, nodes,
+			func(n *Team) { n.Edges.Projects = []*Project{} },
+			func(n *Team, e *Project) { n.Edges.Projects = append(n.Edges.Projects, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -446,34 +446,64 @@ func (tq *TeamQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Team, e
 	return nodes, nil
 }
 
-func (tq *TeamQuery) loadProject(ctx context.Context, query *ProjectQuery, nodes []*Team, init func(*Team), assign func(*Team, *Project)) error {
-	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int]*Team)
-	for i := range nodes {
-		fks = append(fks, nodes[i].ID)
-		nodeids[nodes[i].ID] = nodes[i]
+func (tq *TeamQuery) loadProjects(ctx context.Context, query *ProjectQuery, nodes []*Team, init func(*Team), assign func(*Team, *Project)) error {
+	edgeIDs := make([]driver.Value, len(nodes))
+	byID := make(map[int]*Team)
+	nids := make(map[int]map[*Team]struct{})
+	for i, node := range nodes {
+		edgeIDs[i] = node.ID
+		byID[node.ID] = node
 		if init != nil {
-			init(nodes[i])
+			init(node)
 		}
 	}
-	query.withFKs = true
-	query.Where(predicate.Project(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(team.ProjectColumn), fks...))
-	}))
-	neighbors, err := query.All(ctx)
+	query.Where(func(s *sql.Selector) {
+		joinT := sql.Table(team.ProjectsTable)
+		s.Join(joinT).On(s.C(project.FieldID), joinT.C(team.ProjectsPrimaryKey[1]))
+		s.Where(sql.InValues(joinT.C(team.ProjectsPrimaryKey[0]), edgeIDs...))
+		columns := s.SelectedColumns()
+		s.Select(joinT.C(team.ProjectsPrimaryKey[0]))
+		s.AppendSelect(columns...)
+		s.SetDistinct(false)
+	})
+	if err := query.prepareQuery(ctx); err != nil {
+		return err
+	}
+	qr := QuerierFunc(func(ctx context.Context, q Query) (Value, error) {
+		return query.sqlAll(ctx, func(_ context.Context, spec *sqlgraph.QuerySpec) {
+			assign := spec.Assign
+			values := spec.ScanValues
+			spec.ScanValues = func(columns []string) ([]any, error) {
+				values, err := values(columns[1:])
+				if err != nil {
+					return nil, err
+				}
+				return append([]any{new(sql.NullInt64)}, values...), nil
+			}
+			spec.Assign = func(columns []string, values []any) error {
+				outValue := int(values[0].(*sql.NullInt64).Int64)
+				inValue := int(values[1].(*sql.NullInt64).Int64)
+				if nids[inValue] == nil {
+					nids[inValue] = map[*Team]struct{}{byID[outValue]: {}}
+					return assign(columns[1:], values[1:])
+				}
+				nids[inValue][byID[outValue]] = struct{}{}
+				return nil
+			}
+		})
+	})
+	neighbors, err := withInterceptors[[]*Project](ctx, query, qr, query.inters)
 	if err != nil {
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.team_project
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "team_project" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
+		nodes, ok := nids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "team_project" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected "projects" node returned %v`, n.ID)
 		}
-		assign(node, n)
+		for kn := range nodes {
+			assign(kn, n)
+		}
 	}
 	return nil
 }

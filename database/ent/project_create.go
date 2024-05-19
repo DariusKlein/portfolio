@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"portfolio/database/ent/project"
 	"portfolio/database/ent/team"
+	"portfolio/database/ent/user"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -26,23 +27,58 @@ func (pc *ProjectCreate) SetName(s string) *ProjectCreate {
 	return pc
 }
 
-// SetTeamID sets the "team" edge to the Team entity by ID.
-func (pc *ProjectCreate) SetTeamID(id int) *ProjectCreate {
-	pc.mutation.SetTeamID(id)
+// SetDescription sets the "description" field.
+func (pc *ProjectCreate) SetDescription(s string) *ProjectCreate {
+	pc.mutation.SetDescription(s)
 	return pc
 }
 
-// SetNillableTeamID sets the "team" edge to the Team entity by ID if the given value is not nil.
-func (pc *ProjectCreate) SetNillableTeamID(id *int) *ProjectCreate {
-	if id != nil {
-		pc = pc.SetTeamID(*id)
+// SetURL sets the "url" field.
+func (pc *ProjectCreate) SetURL(s string) *ProjectCreate {
+	pc.mutation.SetURL(s)
+	return pc
+}
+
+// SetImageURL sets the "image_url" field.
+func (pc *ProjectCreate) SetImageURL(s string) *ProjectCreate {
+	pc.mutation.SetImageURL(s)
+	return pc
+}
+
+// SetDocURL sets the "doc_url" field.
+func (pc *ProjectCreate) SetDocURL(s string) *ProjectCreate {
+	pc.mutation.SetDocURL(s)
+	return pc
+}
+
+// AddUserIDs adds the "users" edge to the User entity by IDs.
+func (pc *ProjectCreate) AddUserIDs(ids ...int) *ProjectCreate {
+	pc.mutation.AddUserIDs(ids...)
+	return pc
+}
+
+// AddUsers adds the "users" edges to the User entity.
+func (pc *ProjectCreate) AddUsers(u ...*User) *ProjectCreate {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
 	}
+	return pc.AddUserIDs(ids...)
+}
+
+// AddTeamIDs adds the "teams" edge to the Team entity by IDs.
+func (pc *ProjectCreate) AddTeamIDs(ids ...int) *ProjectCreate {
+	pc.mutation.AddTeamIDs(ids...)
 	return pc
 }
 
-// SetTeam sets the "team" edge to the Team entity.
-func (pc *ProjectCreate) SetTeam(t *Team) *ProjectCreate {
-	return pc.SetTeamID(t.ID)
+// AddTeams adds the "teams" edges to the Team entity.
+func (pc *ProjectCreate) AddTeams(t ...*Team) *ProjectCreate {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return pc.AddTeamIDs(ids...)
 }
 
 // Mutation returns the ProjectMutation object of the builder.
@@ -82,6 +118,18 @@ func (pc *ProjectCreate) check() error {
 	if _, ok := pc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Project.name"`)}
 	}
+	if _, ok := pc.mutation.Description(); !ok {
+		return &ValidationError{Name: "description", err: errors.New(`ent: missing required field "Project.description"`)}
+	}
+	if _, ok := pc.mutation.URL(); !ok {
+		return &ValidationError{Name: "url", err: errors.New(`ent: missing required field "Project.url"`)}
+	}
+	if _, ok := pc.mutation.ImageURL(); !ok {
+		return &ValidationError{Name: "image_url", err: errors.New(`ent: missing required field "Project.image_url"`)}
+	}
+	if _, ok := pc.mutation.DocURL(); !ok {
+		return &ValidationError{Name: "doc_url", err: errors.New(`ent: missing required field "Project.doc_url"`)}
+	}
 	return nil
 }
 
@@ -112,12 +160,44 @@ func (pc *ProjectCreate) createSpec() (*Project, *sqlgraph.CreateSpec) {
 		_spec.SetField(project.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if nodes := pc.mutation.TeamIDs(); len(nodes) > 0 {
+	if value, ok := pc.mutation.Description(); ok {
+		_spec.SetField(project.FieldDescription, field.TypeString, value)
+		_node.Description = value
+	}
+	if value, ok := pc.mutation.URL(); ok {
+		_spec.SetField(project.FieldURL, field.TypeString, value)
+		_node.URL = value
+	}
+	if value, ok := pc.mutation.ImageURL(); ok {
+		_spec.SetField(project.FieldImageURL, field.TypeString, value)
+		_node.ImageURL = value
+	}
+	if value, ok := pc.mutation.DocURL(); ok {
+		_spec.SetField(project.FieldDocURL, field.TypeString, value)
+		_node.DocURL = value
+	}
+	if nodes := pc.mutation.UsersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.M2M,
 			Inverse: true,
-			Table:   project.TeamTable,
-			Columns: []string{project.TeamColumn},
+			Table:   project.UsersTable,
+			Columns: project.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := pc.mutation.TeamsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.TeamsTable,
+			Columns: project.TeamsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(team.FieldID, field.TypeInt),
@@ -126,7 +206,6 @@ func (pc *ProjectCreate) createSpec() (*Project, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.team_project = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

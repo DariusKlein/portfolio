@@ -43,14 +43,14 @@ func (tu *TeamUpdate) SetNillableName(s *string) *TeamUpdate {
 	return tu
 }
 
-// AddProjectIDs adds the "project" edge to the Project entity by IDs.
+// AddProjectIDs adds the "projects" edge to the Project entity by IDs.
 func (tu *TeamUpdate) AddProjectIDs(ids ...int) *TeamUpdate {
 	tu.mutation.AddProjectIDs(ids...)
 	return tu
 }
 
-// AddProject adds the "project" edges to the Project entity.
-func (tu *TeamUpdate) AddProject(p ...*Project) *TeamUpdate {
+// AddProjects adds the "projects" edges to the Project entity.
+func (tu *TeamUpdate) AddProjects(p ...*Project) *TeamUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
@@ -78,20 +78,20 @@ func (tu *TeamUpdate) Mutation() *TeamMutation {
 	return tu.mutation
 }
 
-// ClearProject clears all "project" edges to the Project entity.
-func (tu *TeamUpdate) ClearProject() *TeamUpdate {
-	tu.mutation.ClearProject()
+// ClearProjects clears all "projects" edges to the Project entity.
+func (tu *TeamUpdate) ClearProjects() *TeamUpdate {
+	tu.mutation.ClearProjects()
 	return tu
 }
 
-// RemoveProjectIDs removes the "project" edge to Project entities by IDs.
+// RemoveProjectIDs removes the "projects" edge to Project entities by IDs.
 func (tu *TeamUpdate) RemoveProjectIDs(ids ...int) *TeamUpdate {
 	tu.mutation.RemoveProjectIDs(ids...)
 	return tu
 }
 
-// RemoveProject removes "project" edges to Project entities.
-func (tu *TeamUpdate) RemoveProject(p ...*Project) *TeamUpdate {
+// RemoveProjects removes "projects" edges to Project entities.
+func (tu *TeamUpdate) RemoveProjects(p ...*Project) *TeamUpdate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
@@ -159,12 +159,12 @@ func (tu *TeamUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := tu.mutation.Name(); ok {
 		_spec.SetField(team.FieldName, field.TypeString, value)
 	}
-	if tu.mutation.ProjectCleared() {
+	if tu.mutation.ProjectsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.M2M,
 			Inverse: false,
-			Table:   team.ProjectTable,
-			Columns: []string{team.ProjectColumn},
+			Table:   team.ProjectsTable,
+			Columns: team.ProjectsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(project.FieldID, field.TypeInt),
@@ -172,12 +172,12 @@ func (tu *TeamUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tu.mutation.RemovedProjectIDs(); len(nodes) > 0 && !tu.mutation.ProjectCleared() {
+	if nodes := tu.mutation.RemovedProjectsIDs(); len(nodes) > 0 && !tu.mutation.ProjectsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.M2M,
 			Inverse: false,
-			Table:   team.ProjectTable,
-			Columns: []string{team.ProjectColumn},
+			Table:   team.ProjectsTable,
+			Columns: team.ProjectsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(project.FieldID, field.TypeInt),
@@ -188,12 +188,12 @@ func (tu *TeamUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tu.mutation.ProjectIDs(); len(nodes) > 0 {
+	if nodes := tu.mutation.ProjectsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.M2M,
 			Inverse: false,
-			Table:   team.ProjectTable,
-			Columns: []string{team.ProjectColumn},
+			Table:   team.ProjectsTable,
+			Columns: team.ProjectsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(project.FieldID, field.TypeInt),
@@ -283,14 +283,14 @@ func (tuo *TeamUpdateOne) SetNillableName(s *string) *TeamUpdateOne {
 	return tuo
 }
 
-// AddProjectIDs adds the "project" edge to the Project entity by IDs.
+// AddProjectIDs adds the "projects" edge to the Project entity by IDs.
 func (tuo *TeamUpdateOne) AddProjectIDs(ids ...int) *TeamUpdateOne {
 	tuo.mutation.AddProjectIDs(ids...)
 	return tuo
 }
 
-// AddProject adds the "project" edges to the Project entity.
-func (tuo *TeamUpdateOne) AddProject(p ...*Project) *TeamUpdateOne {
+// AddProjects adds the "projects" edges to the Project entity.
+func (tuo *TeamUpdateOne) AddProjects(p ...*Project) *TeamUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
@@ -318,20 +318,20 @@ func (tuo *TeamUpdateOne) Mutation() *TeamMutation {
 	return tuo.mutation
 }
 
-// ClearProject clears all "project" edges to the Project entity.
-func (tuo *TeamUpdateOne) ClearProject() *TeamUpdateOne {
-	tuo.mutation.ClearProject()
+// ClearProjects clears all "projects" edges to the Project entity.
+func (tuo *TeamUpdateOne) ClearProjects() *TeamUpdateOne {
+	tuo.mutation.ClearProjects()
 	return tuo
 }
 
-// RemoveProjectIDs removes the "project" edge to Project entities by IDs.
+// RemoveProjectIDs removes the "projects" edge to Project entities by IDs.
 func (tuo *TeamUpdateOne) RemoveProjectIDs(ids ...int) *TeamUpdateOne {
 	tuo.mutation.RemoveProjectIDs(ids...)
 	return tuo
 }
 
-// RemoveProject removes "project" edges to Project entities.
-func (tuo *TeamUpdateOne) RemoveProject(p ...*Project) *TeamUpdateOne {
+// RemoveProjects removes "projects" edges to Project entities.
+func (tuo *TeamUpdateOne) RemoveProjects(p ...*Project) *TeamUpdateOne {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
@@ -429,12 +429,12 @@ func (tuo *TeamUpdateOne) sqlSave(ctx context.Context) (_node *Team, err error) 
 	if value, ok := tuo.mutation.Name(); ok {
 		_spec.SetField(team.FieldName, field.TypeString, value)
 	}
-	if tuo.mutation.ProjectCleared() {
+	if tuo.mutation.ProjectsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.M2M,
 			Inverse: false,
-			Table:   team.ProjectTable,
-			Columns: []string{team.ProjectColumn},
+			Table:   team.ProjectsTable,
+			Columns: team.ProjectsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(project.FieldID, field.TypeInt),
@@ -442,12 +442,12 @@ func (tuo *TeamUpdateOne) sqlSave(ctx context.Context) (_node *Team, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tuo.mutation.RemovedProjectIDs(); len(nodes) > 0 && !tuo.mutation.ProjectCleared() {
+	if nodes := tuo.mutation.RemovedProjectsIDs(); len(nodes) > 0 && !tuo.mutation.ProjectsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.M2M,
 			Inverse: false,
-			Table:   team.ProjectTable,
-			Columns: []string{team.ProjectColumn},
+			Table:   team.ProjectsTable,
+			Columns: team.ProjectsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(project.FieldID, field.TypeInt),
@@ -458,12 +458,12 @@ func (tuo *TeamUpdateOne) sqlSave(ctx context.Context) (_node *Team, err error) 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := tuo.mutation.ProjectIDs(); len(nodes) > 0 {
+	if nodes := tuo.mutation.ProjectsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.M2M,
 			Inverse: false,
-			Table:   team.ProjectTable,
-			Columns: []string{team.ProjectColumn},
+			Table:   team.ProjectsTable,
+			Columns: team.ProjectsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(project.FieldID, field.TypeInt),

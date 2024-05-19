@@ -16,14 +16,19 @@ func (Project) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Unique(),
+		field.String("description"),
+		field.String("url"),
+		field.String("image_url"),
+		field.String("doc_url"),
 	}
 }
 
 // Edges of the Project.
 func (Project) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("team", Team.Type).
-			Ref("project").
-			Unique(),
+		edge.From("users", User.Type).
+			Ref("projects"),
+		edge.From("teams", Team.Type).
+			Ref("projects"),
 	}
 }

@@ -16,6 +16,7 @@ func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Unique(),
+		field.String("email"),
 		field.String("password"),
 		field.Enum("role").
 			Values("admin", "user", "visitor"),
@@ -26,5 +27,6 @@ func (User) Fields() []ent.Field {
 func (User) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("teams", Team.Type),
+		edge.To("projects", Project.Type),
 	}
 }

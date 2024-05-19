@@ -27,14 +27,14 @@ func (tc *TeamCreate) SetName(s string) *TeamCreate {
 	return tc
 }
 
-// AddProjectIDs adds the "project" edge to the Project entity by IDs.
+// AddProjectIDs adds the "projects" edge to the Project entity by IDs.
 func (tc *TeamCreate) AddProjectIDs(ids ...int) *TeamCreate {
 	tc.mutation.AddProjectIDs(ids...)
 	return tc
 }
 
-// AddProject adds the "project" edges to the Project entity.
-func (tc *TeamCreate) AddProject(p ...*Project) *TeamCreate {
+// AddProjects adds the "projects" edges to the Project entity.
+func (tc *TeamCreate) AddProjects(p ...*Project) *TeamCreate {
 	ids := make([]int, len(p))
 	for i := range p {
 		ids[i] = p[i].ID
@@ -124,12 +124,12 @@ func (tc *TeamCreate) createSpec() (*Team, *sqlgraph.CreateSpec) {
 		_spec.SetField(team.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if nodes := tc.mutation.ProjectIDs(); len(nodes) > 0 {
+	if nodes := tc.mutation.ProjectsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
+			Rel:     sqlgraph.M2M,
 			Inverse: false,
-			Table:   team.ProjectTable,
-			Columns: []string{team.ProjectColumn},
+			Table:   team.ProjectsTable,
+			Columns: team.ProjectsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(project.FieldID, field.TypeInt),

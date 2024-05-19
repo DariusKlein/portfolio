@@ -9,6 +9,7 @@ import (
 	"portfolio/database/ent/predicate"
 	"portfolio/database/ent/project"
 	"portfolio/database/ent/team"
+	"portfolio/database/ent/user"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -42,23 +43,90 @@ func (pu *ProjectUpdate) SetNillableName(s *string) *ProjectUpdate {
 	return pu
 }
 
-// SetTeamID sets the "team" edge to the Team entity by ID.
-func (pu *ProjectUpdate) SetTeamID(id int) *ProjectUpdate {
-	pu.mutation.SetTeamID(id)
+// SetDescription sets the "description" field.
+func (pu *ProjectUpdate) SetDescription(s string) *ProjectUpdate {
+	pu.mutation.SetDescription(s)
 	return pu
 }
 
-// SetNillableTeamID sets the "team" edge to the Team entity by ID if the given value is not nil.
-func (pu *ProjectUpdate) SetNillableTeamID(id *int) *ProjectUpdate {
-	if id != nil {
-		pu = pu.SetTeamID(*id)
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (pu *ProjectUpdate) SetNillableDescription(s *string) *ProjectUpdate {
+	if s != nil {
+		pu.SetDescription(*s)
 	}
 	return pu
 }
 
-// SetTeam sets the "team" edge to the Team entity.
-func (pu *ProjectUpdate) SetTeam(t *Team) *ProjectUpdate {
-	return pu.SetTeamID(t.ID)
+// SetURL sets the "url" field.
+func (pu *ProjectUpdate) SetURL(s string) *ProjectUpdate {
+	pu.mutation.SetURL(s)
+	return pu
+}
+
+// SetNillableURL sets the "url" field if the given value is not nil.
+func (pu *ProjectUpdate) SetNillableURL(s *string) *ProjectUpdate {
+	if s != nil {
+		pu.SetURL(*s)
+	}
+	return pu
+}
+
+// SetImageURL sets the "image_url" field.
+func (pu *ProjectUpdate) SetImageURL(s string) *ProjectUpdate {
+	pu.mutation.SetImageURL(s)
+	return pu
+}
+
+// SetNillableImageURL sets the "image_url" field if the given value is not nil.
+func (pu *ProjectUpdate) SetNillableImageURL(s *string) *ProjectUpdate {
+	if s != nil {
+		pu.SetImageURL(*s)
+	}
+	return pu
+}
+
+// SetDocURL sets the "doc_url" field.
+func (pu *ProjectUpdate) SetDocURL(s string) *ProjectUpdate {
+	pu.mutation.SetDocURL(s)
+	return pu
+}
+
+// SetNillableDocURL sets the "doc_url" field if the given value is not nil.
+func (pu *ProjectUpdate) SetNillableDocURL(s *string) *ProjectUpdate {
+	if s != nil {
+		pu.SetDocURL(*s)
+	}
+	return pu
+}
+
+// AddUserIDs adds the "users" edge to the User entity by IDs.
+func (pu *ProjectUpdate) AddUserIDs(ids ...int) *ProjectUpdate {
+	pu.mutation.AddUserIDs(ids...)
+	return pu
+}
+
+// AddUsers adds the "users" edges to the User entity.
+func (pu *ProjectUpdate) AddUsers(u ...*User) *ProjectUpdate {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return pu.AddUserIDs(ids...)
+}
+
+// AddTeamIDs adds the "teams" edge to the Team entity by IDs.
+func (pu *ProjectUpdate) AddTeamIDs(ids ...int) *ProjectUpdate {
+	pu.mutation.AddTeamIDs(ids...)
+	return pu
+}
+
+// AddTeams adds the "teams" edges to the Team entity.
+func (pu *ProjectUpdate) AddTeams(t ...*Team) *ProjectUpdate {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return pu.AddTeamIDs(ids...)
 }
 
 // Mutation returns the ProjectMutation object of the builder.
@@ -66,10 +134,46 @@ func (pu *ProjectUpdate) Mutation() *ProjectMutation {
 	return pu.mutation
 }
 
-// ClearTeam clears the "team" edge to the Team entity.
-func (pu *ProjectUpdate) ClearTeam() *ProjectUpdate {
-	pu.mutation.ClearTeam()
+// ClearUsers clears all "users" edges to the User entity.
+func (pu *ProjectUpdate) ClearUsers() *ProjectUpdate {
+	pu.mutation.ClearUsers()
 	return pu
+}
+
+// RemoveUserIDs removes the "users" edge to User entities by IDs.
+func (pu *ProjectUpdate) RemoveUserIDs(ids ...int) *ProjectUpdate {
+	pu.mutation.RemoveUserIDs(ids...)
+	return pu
+}
+
+// RemoveUsers removes "users" edges to User entities.
+func (pu *ProjectUpdate) RemoveUsers(u ...*User) *ProjectUpdate {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return pu.RemoveUserIDs(ids...)
+}
+
+// ClearTeams clears all "teams" edges to the Team entity.
+func (pu *ProjectUpdate) ClearTeams() *ProjectUpdate {
+	pu.mutation.ClearTeams()
+	return pu
+}
+
+// RemoveTeamIDs removes the "teams" edge to Team entities by IDs.
+func (pu *ProjectUpdate) RemoveTeamIDs(ids ...int) *ProjectUpdate {
+	pu.mutation.RemoveTeamIDs(ids...)
+	return pu
+}
+
+// RemoveTeams removes "teams" edges to Team entities.
+func (pu *ProjectUpdate) RemoveTeams(t ...*Team) *ProjectUpdate {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return pu.RemoveTeamIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -111,12 +215,69 @@ func (pu *ProjectUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := pu.mutation.Name(); ok {
 		_spec.SetField(project.FieldName, field.TypeString, value)
 	}
-	if pu.mutation.TeamCleared() {
+	if value, ok := pu.mutation.Description(); ok {
+		_spec.SetField(project.FieldDescription, field.TypeString, value)
+	}
+	if value, ok := pu.mutation.URL(); ok {
+		_spec.SetField(project.FieldURL, field.TypeString, value)
+	}
+	if value, ok := pu.mutation.ImageURL(); ok {
+		_spec.SetField(project.FieldImageURL, field.TypeString, value)
+	}
+	if value, ok := pu.mutation.DocURL(); ok {
+		_spec.SetField(project.FieldDocURL, field.TypeString, value)
+	}
+	if pu.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.M2M,
 			Inverse: true,
-			Table:   project.TeamTable,
-			Columns: []string{project.TeamColumn},
+			Table:   project.UsersTable,
+			Columns: project.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := pu.mutation.RemovedUsersIDs(); len(nodes) > 0 && !pu.mutation.UsersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.UsersTable,
+			Columns: project.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := pu.mutation.UsersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.UsersTable,
+			Columns: project.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if pu.mutation.TeamsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.TeamsTable,
+			Columns: project.TeamsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(team.FieldID, field.TypeInt),
@@ -124,12 +285,28 @@ func (pu *ProjectUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.TeamIDs(); len(nodes) > 0 {
+	if nodes := pu.mutation.RemovedTeamsIDs(); len(nodes) > 0 && !pu.mutation.TeamsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.M2M,
 			Inverse: true,
-			Table:   project.TeamTable,
-			Columns: []string{project.TeamColumn},
+			Table:   project.TeamsTable,
+			Columns: project.TeamsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(team.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := pu.mutation.TeamsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.TeamsTable,
+			Columns: project.TeamsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(team.FieldID, field.TypeInt),
@@ -174,23 +351,90 @@ func (puo *ProjectUpdateOne) SetNillableName(s *string) *ProjectUpdateOne {
 	return puo
 }
 
-// SetTeamID sets the "team" edge to the Team entity by ID.
-func (puo *ProjectUpdateOne) SetTeamID(id int) *ProjectUpdateOne {
-	puo.mutation.SetTeamID(id)
+// SetDescription sets the "description" field.
+func (puo *ProjectUpdateOne) SetDescription(s string) *ProjectUpdateOne {
+	puo.mutation.SetDescription(s)
 	return puo
 }
 
-// SetNillableTeamID sets the "team" edge to the Team entity by ID if the given value is not nil.
-func (puo *ProjectUpdateOne) SetNillableTeamID(id *int) *ProjectUpdateOne {
-	if id != nil {
-		puo = puo.SetTeamID(*id)
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (puo *ProjectUpdateOne) SetNillableDescription(s *string) *ProjectUpdateOne {
+	if s != nil {
+		puo.SetDescription(*s)
 	}
 	return puo
 }
 
-// SetTeam sets the "team" edge to the Team entity.
-func (puo *ProjectUpdateOne) SetTeam(t *Team) *ProjectUpdateOne {
-	return puo.SetTeamID(t.ID)
+// SetURL sets the "url" field.
+func (puo *ProjectUpdateOne) SetURL(s string) *ProjectUpdateOne {
+	puo.mutation.SetURL(s)
+	return puo
+}
+
+// SetNillableURL sets the "url" field if the given value is not nil.
+func (puo *ProjectUpdateOne) SetNillableURL(s *string) *ProjectUpdateOne {
+	if s != nil {
+		puo.SetURL(*s)
+	}
+	return puo
+}
+
+// SetImageURL sets the "image_url" field.
+func (puo *ProjectUpdateOne) SetImageURL(s string) *ProjectUpdateOne {
+	puo.mutation.SetImageURL(s)
+	return puo
+}
+
+// SetNillableImageURL sets the "image_url" field if the given value is not nil.
+func (puo *ProjectUpdateOne) SetNillableImageURL(s *string) *ProjectUpdateOne {
+	if s != nil {
+		puo.SetImageURL(*s)
+	}
+	return puo
+}
+
+// SetDocURL sets the "doc_url" field.
+func (puo *ProjectUpdateOne) SetDocURL(s string) *ProjectUpdateOne {
+	puo.mutation.SetDocURL(s)
+	return puo
+}
+
+// SetNillableDocURL sets the "doc_url" field if the given value is not nil.
+func (puo *ProjectUpdateOne) SetNillableDocURL(s *string) *ProjectUpdateOne {
+	if s != nil {
+		puo.SetDocURL(*s)
+	}
+	return puo
+}
+
+// AddUserIDs adds the "users" edge to the User entity by IDs.
+func (puo *ProjectUpdateOne) AddUserIDs(ids ...int) *ProjectUpdateOne {
+	puo.mutation.AddUserIDs(ids...)
+	return puo
+}
+
+// AddUsers adds the "users" edges to the User entity.
+func (puo *ProjectUpdateOne) AddUsers(u ...*User) *ProjectUpdateOne {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return puo.AddUserIDs(ids...)
+}
+
+// AddTeamIDs adds the "teams" edge to the Team entity by IDs.
+func (puo *ProjectUpdateOne) AddTeamIDs(ids ...int) *ProjectUpdateOne {
+	puo.mutation.AddTeamIDs(ids...)
+	return puo
+}
+
+// AddTeams adds the "teams" edges to the Team entity.
+func (puo *ProjectUpdateOne) AddTeams(t ...*Team) *ProjectUpdateOne {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return puo.AddTeamIDs(ids...)
 }
 
 // Mutation returns the ProjectMutation object of the builder.
@@ -198,10 +442,46 @@ func (puo *ProjectUpdateOne) Mutation() *ProjectMutation {
 	return puo.mutation
 }
 
-// ClearTeam clears the "team" edge to the Team entity.
-func (puo *ProjectUpdateOne) ClearTeam() *ProjectUpdateOne {
-	puo.mutation.ClearTeam()
+// ClearUsers clears all "users" edges to the User entity.
+func (puo *ProjectUpdateOne) ClearUsers() *ProjectUpdateOne {
+	puo.mutation.ClearUsers()
 	return puo
+}
+
+// RemoveUserIDs removes the "users" edge to User entities by IDs.
+func (puo *ProjectUpdateOne) RemoveUserIDs(ids ...int) *ProjectUpdateOne {
+	puo.mutation.RemoveUserIDs(ids...)
+	return puo
+}
+
+// RemoveUsers removes "users" edges to User entities.
+func (puo *ProjectUpdateOne) RemoveUsers(u ...*User) *ProjectUpdateOne {
+	ids := make([]int, len(u))
+	for i := range u {
+		ids[i] = u[i].ID
+	}
+	return puo.RemoveUserIDs(ids...)
+}
+
+// ClearTeams clears all "teams" edges to the Team entity.
+func (puo *ProjectUpdateOne) ClearTeams() *ProjectUpdateOne {
+	puo.mutation.ClearTeams()
+	return puo
+}
+
+// RemoveTeamIDs removes the "teams" edge to Team entities by IDs.
+func (puo *ProjectUpdateOne) RemoveTeamIDs(ids ...int) *ProjectUpdateOne {
+	puo.mutation.RemoveTeamIDs(ids...)
+	return puo
+}
+
+// RemoveTeams removes "teams" edges to Team entities.
+func (puo *ProjectUpdateOne) RemoveTeams(t ...*Team) *ProjectUpdateOne {
+	ids := make([]int, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return puo.RemoveTeamIDs(ids...)
 }
 
 // Where appends a list predicates to the ProjectUpdate builder.
@@ -273,12 +553,69 @@ func (puo *ProjectUpdateOne) sqlSave(ctx context.Context) (_node *Project, err e
 	if value, ok := puo.mutation.Name(); ok {
 		_spec.SetField(project.FieldName, field.TypeString, value)
 	}
-	if puo.mutation.TeamCleared() {
+	if value, ok := puo.mutation.Description(); ok {
+		_spec.SetField(project.FieldDescription, field.TypeString, value)
+	}
+	if value, ok := puo.mutation.URL(); ok {
+		_spec.SetField(project.FieldURL, field.TypeString, value)
+	}
+	if value, ok := puo.mutation.ImageURL(); ok {
+		_spec.SetField(project.FieldImageURL, field.TypeString, value)
+	}
+	if value, ok := puo.mutation.DocURL(); ok {
+		_spec.SetField(project.FieldDocURL, field.TypeString, value)
+	}
+	if puo.mutation.UsersCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.M2M,
 			Inverse: true,
-			Table:   project.TeamTable,
-			Columns: []string{project.TeamColumn},
+			Table:   project.UsersTable,
+			Columns: project.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := puo.mutation.RemovedUsersIDs(); len(nodes) > 0 && !puo.mutation.UsersCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.UsersTable,
+			Columns: project.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := puo.mutation.UsersIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.UsersTable,
+			Columns: project.UsersPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if puo.mutation.TeamsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.TeamsTable,
+			Columns: project.TeamsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(team.FieldID, field.TypeInt),
@@ -286,12 +623,28 @@ func (puo *ProjectUpdateOne) sqlSave(ctx context.Context) (_node *Project, err e
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.TeamIDs(); len(nodes) > 0 {
+	if nodes := puo.mutation.RemovedTeamsIDs(); len(nodes) > 0 && !puo.mutation.TeamsCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
+			Rel:     sqlgraph.M2M,
 			Inverse: true,
-			Table:   project.TeamTable,
-			Columns: []string{project.TeamColumn},
+			Table:   project.TeamsTable,
+			Columns: project.TeamsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(team.FieldID, field.TypeInt),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := puo.mutation.TeamsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   project.TeamsTable,
+			Columns: project.TeamsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(team.FieldID, field.TypeInt),
