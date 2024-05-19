@@ -9,11 +9,10 @@ import (
 	"portfolio/database/ent/user"
 )
 
-func GetLogin(ctx context.Context, name string) (*ent.User, error) {
-
+func GetLogin(ctx context.Context, U *ent.User) (*ent.User, error) {
 	u, err := database.Client.User.
 		Query().
-		Where(user.Name(name)).
+		Where(user.Name(U.Name)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed querying user: %w", err)

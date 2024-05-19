@@ -3,16 +3,14 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
+	"portfolio/api/service/bcrypt"
+	"portfolio/api/service/jwt"
 	"portfolio/database/ent"
-	"portfolio/database/ent/user"
 	"portfolio/database/query"
-	"portfolio/service/bcrypt"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("test")
 	var u *ent.User
 
 	isHtmx := r.Header.Get("HX-Request")
@@ -21,31 +19,40 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		u = &ent.User{
 			Name:     r.PostFormValue("name"),
 			Password: r.PostFormValue("password"),
-			Role:     user.Role(r.PostFormValue("role")),
 		}
 	} else {
 		err := json.NewDecoder(r.Body).Decode(&u)
 		if err != nil {
-			InternalServerErrorHandler(w)
+			InternalServerErrorHandler(w, err)
 		}
 	}
 
-	User, err := query.GetLogin(context.Background(), u.Name)
+	User, err := query.GetLogin(context.Background(), u)
 	if err != nil {
+		UnprocessableEntityHandler(w, err)
 		return
 	}
 
 	if bcrypt.CheckPasswordHash(u.Password, User.Password) {
-		w.Header().Set("HX-Location", "/")
-		return
+
+		jwtToken := jwt.CreateUserJWT(u.Name, u.ID, string(u.Role))
+
+		if jwtToken != "" {
+			w.Header().Set("HX-Location", "/")
+
+			cookie := &http.Cookie{Name: "jwt", Value: jwtToken, HttpOnly: true, Secure: true, SameSite: http.SameSiteStrictMode}
+			http.SetCookie(w, cookie)
+
+			w.WriteHeader(http.StatusOK)
+			_, err = w.Write([]byte("login success"))
+			return
+		} else {
+			InternalServerErrorHandler(w, err)
+			return
+		}
+
 	} else {
-
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-
-	err = json.NewEncoder(w).Encode(User)
-	if err != nil {
+		UnauthorizedHandler(w)
 		return
 	}
 }

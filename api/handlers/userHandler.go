@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"portfolio/api/service/bcrypt"
+	"portfolio/api/service/validate"
 	"portfolio/database/ent"
 	"portfolio/database/ent/user"
 	"portfolio/database/query"
-	"portfolio/service/validate"
 	"strconv"
 )
 
@@ -25,7 +26,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	} else {
 		err := json.NewDecoder(r.Body).Decode(&u)
 		if err != nil {
-			InternalServerErrorHandler(w)
+			InternalServerErrorHandler(w, err)
 		}
 	}
 
@@ -34,8 +35,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//hash password
+	u.Password, _ = bcrypt.HashPassword(u.Password)
+
 	err := query.CreateUser(context.Background(), *u)
 	if err != nil {
+		UnprocessableEntityHandler(w, err)
 		return
 	}
 	w.WriteHeader(http.StatusCreated)

@@ -22,12 +22,14 @@ func GetUser(ctx context.Context, id int) (*ent.User, error) {
 	return u, nil
 }
 
-func CreateUser(ctx context.Context, User ent.User) error {
+func CreateUser(ctx context.Context, user ent.User) error {
 
 	_, err := database.Client.User.
 		Create().
-		SetName(User.Name).
-		SetRole(User.Role).
+		SetName(user.Name).
+		SetEmail(user.Email).
+		SetPassword(user.Password).
+		SetRole("visitor").
 		Save(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to create user: %w", err)

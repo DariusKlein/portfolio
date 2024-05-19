@@ -12,9 +12,9 @@ func ApiRoutes() *http.ServeMux {
 
 	// Register the routes and webHandler
 	mux.HandleFunc("/", handlers.CatchAllHandler)
-	mux.HandleFunc("POST /api/user", handlers.CreateUser)
-	mux.HandleFunc("GET /api/user/{id}", handlers.GetUser)
-	mux.HandleFunc("POST /api/login", handlers.Login)
+	mux.HandleFunc("POST /register", handlers.CreateUser)
+	mux.HandleFunc("GET /user/{id}", handlers.GetUser)
+	mux.HandleFunc("POST /login", handlers.Login)
 
 	return mux
 }

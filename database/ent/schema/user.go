@@ -16,10 +16,11 @@ func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Unique(),
-		field.String("email"),
+		field.String("email").
+			Unique(),
 		field.String("password"),
 		field.Enum("role").
-			Values("admin", "user", "visitor"),
+			Values("owner", "admin", "user", "visitor"),
 	}
 }
 
