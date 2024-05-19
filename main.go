@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/joho/godotenv"
+	"github.com/rs/cors"
 	"log"
 	"net/http"
 	"portfolio/api"
@@ -23,11 +24,25 @@ func main() {
 	//init web routes
 	webMux := web.WebRoutes()
 	// Run web server
-	go http.ListenAndServe(":4000", webMux)
+	go http.ListenAndServe(":4000", cors.AllowAll().Handler(webMux))
+
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{
+			http.MethodHead,
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+		},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
 
 	//init api routes
 	apiMux := api.ApiRoutes()
 	//run api server
-	http.ListenAndServe(":4001", apiMux)
+	http.ListenAndServe(":4001", c.Handler(apiMux))
 
 }

@@ -12,7 +12,7 @@ import (
 func GetLogin(ctx context.Context, U *ent.User) (*ent.User, error) {
 	u, err := database.Client.User.
 		Query().
-		Where(user.Name(U.Name)).
+		Where(user.Email(U.Email)).
 		Only(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed querying user: %w", err)

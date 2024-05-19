@@ -10,11 +10,16 @@ func ApiRoutes() *http.ServeMux {
 	// Take incoming requests and dispatch them to the matching webHandler
 	mux := http.NewServeMux()
 
-	// Register the routes and webHandler
+	// routes
 	mux.HandleFunc("/", handlers.CatchAllHandler)
-	mux.HandleFunc("POST /register", handlers.CreateUser)
+	mux.HandleFunc("GET /check", handlers.CheckRoleHandler)
+
+	//user
 	mux.HandleFunc("GET /user/{id}", handlers.GetUser)
+
+	//auth
 	mux.HandleFunc("POST /login", handlers.Login)
+	mux.HandleFunc("POST /register", handlers.CreateUser)
 
 	return mux
 }

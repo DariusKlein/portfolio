@@ -9,6 +9,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
 	github.com/maragudk/gomponents v0.20.2
+	github.com/maragudk/gomponents-htmx v0.5.0
 	github.com/willoma/bulma-gomponents v0.11.1
 	github.com/willoma/gomplements v0.6.1
 	golang.org/x/crypto v0.23.0
@@ -23,6 +24,7 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.19.1 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
+	github.com/rs/cors v1.11.0 // indirect
 	github.com/zclconf/go-cty v1.14.2 // indirect
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/text v0.15.0 // indirect

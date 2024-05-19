@@ -8,7 +8,7 @@ import (
 
 func AboutPageHandler(w http.ResponseWriter, r *http.Request) {
 
-	err := Page("Homepage", createAboutBody(w, r)).Render(w)
+	err := Page("About page", createAboutBody(w, r)).Render(w)
 	if err != nil {
 		return
 	}

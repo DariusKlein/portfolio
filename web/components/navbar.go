@@ -35,7 +35,8 @@ func Navbar() g.Node {
 		b.NavbarEnd(
 			b.NavbarItem(
 				b.Buttons(
-					b.ButtonA(
+					b.ButtonAHref(
+						"/login",
 						b.Primary,
 						"Log in",
 					),

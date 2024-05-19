@@ -17,7 +17,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	if isHtmx == "true" {
 		u = &ent.User{
-			Name:     r.PostFormValue("name"),
+			Email:    r.PostFormValue("email"),
 			Password: r.PostFormValue("password"),
 		}
 	} else {
@@ -35,12 +35,18 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	if bcrypt.CheckPasswordHash(u.Password, User.Password) {
 
-		jwtToken := jwt.CreateUserJWT(u.Name, u.ID, string(u.Role))
+		jwtToken := jwt.CreateUserJWT(User.Name, User.ID, string(User.Role))
 
 		if jwtToken != "" {
-			w.Header().Set("HX-Location", "/")
 
-			cookie := &http.Cookie{Name: "jwt", Value: jwtToken, HttpOnly: true, Secure: true, SameSite: http.SameSiteStrictMode}
+			cookie := &http.Cookie{Name: "jwt",
+				Value: jwtToken,
+				//HttpOnly: true,
+				//Secure:   true,
+				//SameSite: http.SameSiteNoneMode,
+				//Expires:  time.Now().Add(24 * time.Hour),
+			}
+
 			http.SetCookie(w, cookie)
 
 			w.WriteHeader(http.StatusOK)

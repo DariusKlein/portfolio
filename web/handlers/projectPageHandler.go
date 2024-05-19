@@ -10,7 +10,7 @@ import (
 
 func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 
-	err := Page("Homepage", createProjectBody(w, r)).Render(w)
+	err := Page("Project page", createProjectBody(w, r)).Render(w)
 	if err != nil {
 		return
 	}
