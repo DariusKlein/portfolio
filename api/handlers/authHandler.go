@@ -8,6 +8,7 @@ import (
 	"portfolio/api/service/jwt"
 	"portfolio/database/ent"
 	"portfolio/database/query"
+	"time"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -40,11 +41,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		if jwtToken != "" {
 
 			cookie := &http.Cookie{Name: "jwt",
-				Value: jwtToken,
-				//HttpOnly: true,
-				//Secure:   true,
-				//SameSite: http.SameSiteNoneMode,
-				//Expires:  time.Now().Add(24 * time.Hour),
+				Value:    jwtToken,
+				HttpOnly: true,
+				Secure:   true,
+				SameSite: http.SameSiteStrictMode,
+				Expires:  time.Now().Add(24 * time.Hour),
 			}
 
 			http.SetCookie(w, cookie)
