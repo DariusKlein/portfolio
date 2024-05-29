@@ -22434,4 +22434,9 @@ has-background-danger.is-hoverable:active {
   pointer-events: all !important;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+  /* for Chrome, Safari, and Opera */
+}
+
 /*# sourceMappingURL=style.css.map */
