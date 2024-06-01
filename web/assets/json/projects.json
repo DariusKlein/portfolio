@@ -20,6 +20,13 @@
       "Description": "Proin sollicitudin hendrerit dolor ut venenatis. Etiam quis elit turpis. Maecenas imperdiet sapien a lorem finibus feugiat. Aenean quis faucibus quam. Donec eu libero ut lectus tempus tempus. Maecenas et imperdiet quam. Donec ligula lacus, hendrerit facilisis ornare nec, varius ac dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam efficitur, nunc eget mollis tristique, eros mi varius mauris, quis cursus nisi justo ac nisl. Nullam eget laoreet dui. Phasellus placerat, nibh a euismod maximus, turpis odio bibendum mi, sed imperdiet justo lacus volutpat augue. Mauris rutrum orci at libero interdum gravida. In eget commodo elit. Mauris nec felis augue. Aenean nec orci turpis.",
       "image_url": "https://bulma.io/assets/images/placeholders/96x96.png",
       "doc_url": "https://docs.notifier.kleinsense.nl"
+    },
+    {
+      "Name": "CLI tool",
+      "Url": "https://github.com/DariusKlein/kleinCommand",
+      "Description": "Proin sollicitudin hendrerit dolor ut venenatis. Etiam quis elit turpis. Maecenas imperdiet sapien a lorem finibus feugiat. Aenean quis faucibus quam. Donec eu libero ut lectus tempus tempus. Maecenas et imperdiet quam. Donec ligula lacus, hendrerit facilisis ornare nec, varius ac dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam efficitur, nunc eget mollis tristique, eros mi varius mauris, quis cursus nisi justo ac nisl. Nullam eget laoreet dui. Phasellus placerat, nibh a euismod maximus, turpis odio bibendum mi, sed imperdiet justo lacus volutpat augue. Mauris rutrum orci at libero interdum gravida. In eget commodo elit. Mauris nec felis augue. Aenean nec orci turpis.",
+      "image_url": "https://bulma.io/assets/images/placeholders/96x96.png",
+      "doc_url": "https://github.com/DariusKlein/kleinCommand"
     }
   ]
 }
