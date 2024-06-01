@@ -17,5 +17,11 @@ body::-webkit-scrollbar {
   /* for Chrome, Safari, and Opera */
 }
 
+.image img {
+  display: block;
+  height: auto;
+  width: auto;
+}
+
 // Import the Google Font
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700");

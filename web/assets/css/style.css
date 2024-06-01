@@ -22439,4 +22439,10 @@ body::-webkit-scrollbar {
   /* for Chrome, Safari, and Opera */
 }
 
+.image img {
+  display: block;
+  height: auto;
+  width: auto;
+}
+
 /*# sourceMappingURL=style.css.map */
