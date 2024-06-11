@@ -9,7 +9,8 @@ import (
 
 func Login() g.Node {
 	return FormEl(hx.Post("https://api.portfolio.dariusklein.nl/login"),
-		b.Section(
+		Class("max-w-xl m-auto py-32"),
+		b.Box(
 			Email(false, false, nil),
 			Password(false, false, nil),
 			b.Field(
