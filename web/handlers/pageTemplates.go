@@ -14,6 +14,7 @@ func Page(title string, body g.Node) g.Node {
 		Language: "en",
 		Head: []g.Node{
 			Meta(Name("htmx-config"), Content("{\"withCredentials\":\"true\"}")),
+			Meta(Name("viewport"), Content("width=device-width, initial-scale=1.0")),
 			Script(Src("https://cdn.tailwindcss.com?plugins=typography")),
 			Script(Src("https://unpkg.com/htmx.org")),
 			Link(Rel("icon"), Type("image/x-icon"), Href("assets/images/favicon.ico")),

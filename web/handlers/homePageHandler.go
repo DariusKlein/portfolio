@@ -25,47 +25,30 @@ func createHomeBody(w http.ResponseWriter, r *http.Request) g.Node {
 				b.MarginBottom(0),
 				b.MediaLeft(
 					Figure,
-					b.ImageImg("assets/images/darius_circle_noEdge.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/darius_circle_noEdge_upscayl_1x_realesrgan-x4plus.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/darius_circle_noEdge_upscayl_1x_realesrgan-x4plus-anime.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/darius_circle_noEdge_upscayl_1x_remacri.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/darius_circle_noEdge_upscayl_1x_ultramix_balanced.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/Darius_pasfoto_2023_Large.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/darius_circle_noEdge_crop.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/darius_circle_noEdge_crop_upscayl_1x_realesrgan-x4plus.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
 					b.ImageImg("assets/images/darius_circle_noEdge_crop_upscayl_1x_realesrgan-x4plus-anime.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/darius_circle_noEdge_crop_upscayl_1x_remacri.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
-					),
-					b.ImageImg("assets/images/darius_circle_noEdge_crop_upscayl_1x_ultramix_balanced.png",
-						b.OnImg(Class("object-scale-down max-h-[calc(100vh_-_3.75rem)]")),
+						b.OnImg(Class("object-scale-down grayscale "+
+							"max-h-[calc(25vh_-_3.75rem)] "+
+							"sm:max-h-[calc(40vh_-_3.75rem)] "+
+							"md:max-h-[calc(60vh_-_3.75rem)] "+
+							"lg:max-h-[calc(100vh_-_3.75rem)] ")),
 					),
 				),
 			),
 			b.Section(
+				b.Margin(100),
 				e.H1("Darius Klein",
-					Class("title backdrop-blur")),
+					Class("title backdrop-blur "+
+						"text-2xl "+
+						"sm:text-4xl "+
+						"md:text-6xl "+
+						"lg:text-8xl "),
+				),
 				e.H2(
 					"Backend developer die zelf zijn servers kan opzetten.",
-					Class("subtitle backdrop-blur")),
+					Class("subtitle backdrop-blur"),
+				),
+
+				b.ButtonAHref("/projects", "Mijn projecten.", b.Primary, b.Centered, b.Large),
 			),
 			Class("flex"),
 		),

@@ -8,7 +8,7 @@ import (
 )
 
 func Login() g.Node {
-	return FormEl(hx.Post("http://localhost:4001/login"),
+	return FormEl(hx.Post("https://api.portfolio.dariusklein.nl/login"),
 		b.Section(
 			Email(false, false, nil),
 			Password(false, false, nil),
