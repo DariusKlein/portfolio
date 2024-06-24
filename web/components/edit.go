@@ -4,7 +4,6 @@ import (
 	g "github.com/maragudk/gomponents"
 	hx "github.com/maragudk/gomponents-htmx"
 	. "github.com/maragudk/gomponents/html"
-	b "github.com/willoma/bulma-gomponents"
 )
 
 func Edit() g.Node {
@@ -14,7 +13,7 @@ func Edit() g.Node {
 		hx.Swap("outerHTML"),
 		hx.SelectOOB("true"),
 		hx.Target("#main"),
-		b.Button(
+		Div(
 			hx.Trigger("load"),
 			hx.Get(BaseUrl+"/htmx/canEdit"),
 			hx.Target("this"),
