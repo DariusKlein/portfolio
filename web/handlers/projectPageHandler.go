@@ -1,11 +1,12 @@
 package handlers
 
 import (
+	"context"
 	g "github.com/maragudk/gomponents"
 	. "github.com/maragudk/gomponents/html"
 	"net/http"
+	"portfolio/database/query"
 	"portfolio/web/components"
-	"portfolio/web/services"
 )
 
 func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -19,8 +20,13 @@ func ProjectPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func createProjectBody(w http.ResponseWriter, r *http.Request) g.Node {
 
+	projects, err := query.GetProjects(context.Background())
+	if err != nil {
+		return nil
+	}
+
 	return Body(
-		components.ProjectList(services.ReadProjectsJson()),
+		components.ProjectList(projects),
 	)
 
 }
