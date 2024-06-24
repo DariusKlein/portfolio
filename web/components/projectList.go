@@ -37,3 +37,35 @@ func Project(project *ent.Project) g.Node {
 		),
 	)
 }
+
+func EditProjectList(projects []*ent.Project) g.Node {
+	return Div(Class("py-2 px-2"), g.Group(g.Map(projects, func(p *ent.Project) g.Node {
+		return EditProject(p)
+	})),
+	)
+}
+
+func EditProject(project *ent.Project) g.Node {
+	return b.Card(
+		b.Media(
+			b.MediaLeft(
+				b.ImageImg(
+					project.ImageURL,
+					e.Alt("project image"),
+					b.ImgSq64,
+				),
+			),
+			b.Label("Name"),
+			b.Textarea(project.Name, b.Rows(1)),
+			b.Subtitle(
+				6,
+				b.Label("Repo"),
+				b.Textarea(project.URL, b.Rows(1)),
+				b.Label("Docs"),
+				b.Textarea(project.DocURL, b.Rows(1))),
+		),
+		b.Content(
+			b.Textarea(project.Description),
+		),
+	)
+}

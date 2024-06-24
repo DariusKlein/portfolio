@@ -26,7 +26,21 @@ func createProjectBody(w http.ResponseWriter, r *http.Request) g.Node {
 	}
 
 	return Body(
+		components.Edit(),
 		components.ProjectList(projects),
 	)
 
+}
+
+func CreateProjectEditBody(w http.ResponseWriter, r *http.Request) {
+
+	projects, err := query.GetProjects(context.Background())
+	if err != nil {
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	Body(
+		components.EditProjectList(projects),
+	).Render(w)
 }

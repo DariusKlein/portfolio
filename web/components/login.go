@@ -7,8 +7,11 @@ import (
 	b "github.com/willoma/bulma-gomponents"
 )
 
+// todo var BaseUrl = "https://api.portfolio.dariusklein.nl"
+var BaseUrl = "http://localhost:4001"
+
 func Login() g.Node {
-	return FormEl(hx.Post("https://api.portfolio.dariusklein.nl/login"),
+	return FormEl(hx.Post(BaseUrl+"/login"), //https://api.portfolio.dariusklein.nl/login
 		Class("max-w-xl m-auto py-32"),
 		b.Box(
 			Email(false, false, nil),

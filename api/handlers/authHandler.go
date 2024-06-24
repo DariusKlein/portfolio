@@ -63,3 +63,25 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func CanEdit(w http.ResponseWriter, r *http.Request) {
+	jwtCookie, _ := r.Cookie("jwt")
+
+	if jwtCookie != nil {
+		_, audience, err := jwt.VerifyJWT(jwtCookie.Value)
+		if err != nil {
+			InternalServerErrorHandler(w, err)
+			return
+		}
+		if audience == "owner" || audience == "visitor" {
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte("<button class=\"button is-link\">Edit</button>"))
+		} else {
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte(""))
+		}
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(""))
+}

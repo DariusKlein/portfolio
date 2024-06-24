@@ -20,6 +20,7 @@ func ApiRoutes() *http.ServeMux {
 	//auth
 	mux.HandleFunc("POST /login", handlers.Login)
 	mux.HandleFunc("POST /register", handlers.CreateUserHandler)
+	mux.HandleFunc("GET /htmx/canEdit", handlers.CanEdit)
 
 	//Project
 	mux.HandleFunc("POST /project", handlers.CreateProjectHandler)

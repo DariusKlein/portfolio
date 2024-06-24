@@ -13,6 +13,7 @@ func WebRoutes() *http.ServeMux {
 	// Register the routes and webHandler
 	mux.HandleFunc("/", handlers.HomePageHandler)
 	mux.HandleFunc("/projects", handlers.ProjectPageHandler)
+	mux.HandleFunc("/projects/edit", handlers.CreateProjectEditBody)
 	mux.HandleFunc("/about", handlers.AboutPageHandler)
 	mux.HandleFunc("/login", handlers.LoginPageHandler)
 
