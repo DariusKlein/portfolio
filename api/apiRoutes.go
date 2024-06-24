@@ -15,11 +15,17 @@ func ApiRoutes() *http.ServeMux {
 	mux.HandleFunc("GET /check", handlers.CheckRoleHandler)
 
 	//user
-	mux.HandleFunc("GET /user/{id}", handlers.GetUser)
+	mux.HandleFunc("GET /user/{id}", handlers.GetUserHandler)
 
 	//auth
 	mux.HandleFunc("POST /login", handlers.Login)
-	mux.HandleFunc("POST /register", handlers.CreateUser)
+	mux.HandleFunc("POST /register", handlers.CreateUserHandler)
+
+	//Project
+	mux.HandleFunc("POST /project", handlers.CreateProjectHandler)
+	mux.HandleFunc("PATCH /project/{id}", handlers.UpdateProjectHandler)
+	mux.HandleFunc("GET /project/{id}", handlers.GetProjectHandler)
+	mux.HandleFunc("GET /projects", handlers.GetProjectsHandler)
 
 	return mux
 }

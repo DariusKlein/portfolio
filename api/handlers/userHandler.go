@@ -12,7 +12,7 @@ import (
 	"strconv"
 )
 
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	var u *ent.User
 
@@ -48,7 +48,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func GetUser(w http.ResponseWriter, r *http.Request) {
+func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	userID, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {

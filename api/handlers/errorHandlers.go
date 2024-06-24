@@ -44,3 +44,12 @@ func UnauthorizedHandler(w http.ResponseWriter) {
 	}
 	return
 }
+
+func NotImplementedHandler(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusNotImplemented) //set http status
+	_, err := w.Write([]byte("WORK IN PROGRESS"))
+	if err != nil {
+		return
+	}
+	return
+}

@@ -2,10 +2,23 @@ package jwt
 
 import (
 	_ "context"
+	"fmt"
 	"github.com/golang-jwt/jwt/v5"
+	"net/http"
 	"os"
 	"strconv"
 )
+
+func VerifyUser(r *http.Request) (int, string, error) {
+	bearerToken := r.Header.Get("Authorization")
+	jwtToken := ""
+	if len(bearerToken) > 7 {
+		jwtToken = bearerToken[len("Bearer "):]
+	} else {
+		return 0, "", fmt.Errorf("token empty")
+	}
+	return VerifyJWT(jwtToken)
+}
 
 // VerifyJWT verify JWT token and returns user object
 func VerifyJWT(authToken string) (int, string, error) {
