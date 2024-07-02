@@ -34,7 +34,7 @@ func CreateProjectHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateProjectHandler(w http.ResponseWriter, r *http.Request) {
-
+	//todo htmx check
 	_, _, err := jwt.VerifyUser(r)
 	if err != nil {
 		UnauthorizedHandler(w)
