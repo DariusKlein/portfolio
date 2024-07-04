@@ -57,6 +57,7 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	User, err := query.GetUser(context.Background(), userID)
 	if err != nil {
+		UnprocessableEntityHandler(w, err)
 		return
 	}
 
@@ -64,6 +65,7 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewEncoder(w).Encode(User)
 	if err != nil {
+		InternalServerErrorHandler(w, err)
 		return
 	}
 }

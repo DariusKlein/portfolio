@@ -18,7 +18,8 @@ func (User) Fields() []ent.Field {
 			Unique(),
 		field.String("email").
 			Unique(),
-		field.String("password"),
+		field.String("password").
+			Sensitive(),
 		field.Enum("role").
 			Values("owner", "admin", "user", "visitor"),
 	}

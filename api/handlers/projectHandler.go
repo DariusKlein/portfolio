@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"portfolio/api/service/jwt"
+	"portfolio/api/service/parse"
 	"portfolio/database/ent"
 	"portfolio/database/query"
 	"strconv"
@@ -65,6 +66,54 @@ func UpdateProjectHandler(w http.ResponseWriter, r *http.Request) {
 		UnprocessableEntityHandler(w, err)
 		return
 	}
+}
+
+func UpdateProjectsHandler(w http.ResponseWriter, r *http.Request) {
+
+	isHtmx := r.Header.Get("HX-Request")
+
+	_, _, err := jwt.VerifyUser(r)
+	if err != nil {
+		UnauthorizedHandler(w)
+		return
+	}
+
+	var newProjects []*ent.Project
+	var p []*ent.Project
+
+	if isHtmx == "true" {
+		p = parse.ParseProjectInput(r)
+	} else {
+
+		p, err = query.GetFullProjects(context.Background())
+		if err != nil {
+			UnprocessableEntityHandler(w, err)
+			return
+		}
+
+		err = json.NewDecoder(r.Body).Decode(&newProjects)
+		if err != nil {
+			InternalServerErrorHandler(w, err)
+			return
+		}
+
+		for _, project := range p {
+			for _, newProject := range newProjects {
+				if project.ID == newProject.ID {
+					// todo add update from api
+				}
+			}
+		}
+	}
+
+	for _, project := range p {
+		err = query.UpdateProject(context.Background(), *project, project.ID)
+		if err != nil {
+			UnprocessableEntityHandler(w, err)
+			return
+		}
+	}
+
 }
 
 func GetProjectHandler(w http.ResponseWriter, r *http.Request) {

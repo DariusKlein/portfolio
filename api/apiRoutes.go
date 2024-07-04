@@ -25,6 +25,7 @@ func ApiRoutes() *http.ServeMux {
 	//Project
 	mux.HandleFunc("POST /project", handlers.CreateProjectHandler)
 	mux.HandleFunc("PATCH /project/{id}", handlers.UpdateProjectHandler)
+	mux.HandleFunc("PATCH /projects", handlers.UpdateProjectsHandler)
 	mux.HandleFunc("GET /project/{id}", handlers.GetProjectHandler)
 	mux.HandleFunc("GET /projects", handlers.GetProjectsHandler)
 

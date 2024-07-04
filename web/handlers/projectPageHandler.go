@@ -42,5 +42,6 @@ func CreateProjectEditBody(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	Body(
 		components.EditProjectList(projects),
+		components.Save(),
 	).Render(w)
 }

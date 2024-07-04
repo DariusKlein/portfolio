@@ -69,6 +69,19 @@ func GetFullProject(ctx context.Context, projectID int) (*ent.Project, error) {
 	return p, err
 }
 
+func GetFullProjects(ctx context.Context) ([]*ent.Project, error) {
+
+	p, err := database.Client.Project.
+		Query().
+		WithUsers().
+		WithTeams().
+		All(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get project: %w", err)
+	}
+	return p, err
+}
+
 func GetProjects(ctx context.Context) (ent.Projects, error) {
 
 	p, err := database.Client.Project.Query().
