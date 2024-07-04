@@ -7,8 +7,16 @@
                   start-page="test.md">
 
     <toc-element topic="test.md"/>
-    <toc-element topic="API_Reference.md">
-        <toc-element topic="Schemas.md"/>
-        <toc-element topic="nfc_uid_GET.md"/>
+    <toc-element topic="API_Reference.topic">
+        <toc-element topic="user_uid_GET.topic"/>
+        <toc-element topic="register_POST.topic"/>
+        <toc-element topic="projects_PATCH.topic"/>
+        <toc-element topic="projects_GET.topic"/>
+        <toc-element topic="project_id_PATCH.topic"/>
+        <toc-element topic="project_id_GET.topic"/>
+        <toc-element topic="project_POST.topic"/>
+        <toc-element topic="login_POST.topic"/>
+        <toc-element topic="htmx_canEdit_GET.topic"/>
+        <toc-element topic="check_GET.topic"/>
     </toc-element>
 </instance-profile>

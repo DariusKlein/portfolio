@@ -18,4 +18,16 @@
         <description>Created after removal of "About portfolio" from portfolio</description>
         <accepts>starter-topic.html</accepts>
     </rule>
+    <rule id="197e2e0d">
+        <description>Created after removal of "Schemas" from portfolio</description>
+        <accepts>Schemas.html</accepts>
+    </rule>
+    <rule id="32e9b651">
+        <description>Created after removal of "/nfc/{uid} GET" from portfolio</description>
+        <accepts>nfc_uid_GET.html</accepts>
+    </rule>
+    <rule id="2eac3350">
+        <description>Created after removal of "API Reference" from portfolio</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
 </rules>
