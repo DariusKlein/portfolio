@@ -25,10 +25,11 @@ func Edit() g.Node {
 func Save() g.Node {
 	return Div(
 		Class("px-3 py-2"),
-		hx.Patch(BaseUrl+"/login"),
-		hx.Swap("outerHTML"),
+		hx.Patch(BaseUrl+"/projects"),
+		hx.Swap("none"),
 		hx.SelectOOB("true"),
-		hx.Target("#main"),
-		b.Button("Save"),
+		hx.Include("[name='project_name'], [name='project_repo'], [name='project_docs'], [name='project_description'], [name='project_id']"),
+		hx.Confirm("Are u sure?"),
+		b.Button("Save", b.Link),
 	)
 }

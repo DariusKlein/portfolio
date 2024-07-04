@@ -10,6 +10,11 @@ import (
 )
 
 func VerifyUser(r *http.Request) (int, string, error) {
+	jwtCookie, _ := r.Cookie("jwt")
+
+	if jwtCookie != nil {
+		return VerifyJWT(jwtCookie.Value)
+	}
 	bearerToken := r.Header.Get("Authorization")
 	jwtToken := ""
 	if len(bearerToken) > 7 {

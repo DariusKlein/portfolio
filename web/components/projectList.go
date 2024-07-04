@@ -7,6 +7,7 @@ import (
 	b "github.com/willoma/bulma-gomponents"
 	e "github.com/willoma/gomplements"
 	"portfolio/database/ent"
+	"strconv"
 )
 
 func ProjectList(projects []*ent.Project) g.Node {
@@ -55,17 +56,23 @@ func EditProject(project *ent.Project) g.Node {
 					b.ImgSq64,
 				),
 			),
+			Input(Type("hidden"), Value(strconv.Itoa(project.ID)), Name("project_id")),
+			//b.Label("ID: "+strconv.Itoa(project.ID), Name("project_id")),
 			b.Label("Name"),
-			b.Textarea(project.Name, b.Rows(1)),
+			b.Textarea(project.Name, b.Rows(1), Name("project_name")),
 			b.Subtitle(
 				6,
 				b.Label("Repo"),
-				b.Textarea(project.URL, b.Rows(1)),
+				b.Textarea(project.URL, b.Rows(1), Name("project_repo")),
 				b.Label("Docs"),
-				b.Textarea(project.DocURL, b.Rows(1))),
+				b.Textarea(project.DocURL, b.Rows(1), Name("project_docs"))),
 		),
 		b.Content(
-			b.Textarea(project.Description),
+			b.Textarea(project.Description, Name("project_description")),
 		),
+
+		//b.CardFooter(
+		//Save(),
+		//),
 	)
 }
