@@ -85,6 +85,7 @@ func GetFullProjects(ctx context.Context) ([]*ent.Project, error) {
 func GetProjects(ctx context.Context) (ent.Projects, error) {
 
 	p, err := database.Client.Project.Query().
+		Order(ent.Asc(project.FieldID)).
 		All(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get projects: %w", err)
