@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"github.com/a-h/rest"
 	"log"
-	"net/http"
 	"os"
 )
 
@@ -15,13 +14,12 @@ func main() {
 	api = rest.NewAPI("portfolio")
 	api.StripPkgPaths = []string{"github.com/a-h/rest/example", "github.com/a-h/respond"}
 
-	api.Get("/nfc/{uid}").
-		HasPathParameter("uid", rest.PathParam{
-			Description: "id of the user",
-			Regexp:      `\d+`,
-		}).
-		HasDescription("Get nfc data by uid.").
-		HasResponseModel(http.StatusOK, rest.ModelOf[string]())
+	// register models
+	RegisterModels()
+	// register endpoints
+	RegisterGenericEndpoints()
+	RegisterUserEndpoints()
+	RegisterProjectEndpoints()
 
 	// Create the specification.
 	spec, err := api.Spec()
