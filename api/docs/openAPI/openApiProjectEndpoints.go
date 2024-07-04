@@ -4,7 +4,7 @@ import (
 	"github.com/a-h/respond"
 	"github.com/a-h/rest"
 	"net/http"
-	"portfolio/database/ent"
+	"portfolio/api/types"
 )
 
 func RegisterProjectEndpoints() {
@@ -21,7 +21,7 @@ func RegisterProjectEndpoints() {
 			Regexp:      `\d+`,
 		}).
 		HasDescription("Update project by id").
-		HasRequestModel(rest.ModelOf[ent.Project]()).
+		HasRequestModel(rest.ModelOf[types.Project]()).
 		HasResponseModel(http.StatusOK, rest.ModelOf[string]()).
 		HasResponseModel(http.StatusBadRequest, rest.ModelOf[string]()).
 		HasResponseModel(http.StatusInternalServerError, rest.ModelOf[respond.Error]()).
@@ -30,7 +30,7 @@ func RegisterProjectEndpoints() {
 
 	api.Patch("/projects").
 		HasDescription("Update projects WIP").
-		HasResponseModel(http.StatusOK, rest.ModelOf[[]ent.Project]()).
+		HasResponseModel(http.StatusOK, rest.ModelOf[[]types.Project]()).
 		HasResponseModel(http.StatusInternalServerError, rest.ModelOf[respond.Error]()).
 		HasResponseModel(http.StatusUnprocessableEntity, rest.ModelOf[respond.Error]()).
 		HasResponseModel(http.StatusUnauthorized, rest.ModelOf[string]())
@@ -41,12 +41,12 @@ func RegisterProjectEndpoints() {
 			Regexp:      `\d+`,
 		}).
 		HasDescription("Get project by id").
-		HasResponseModel(http.StatusOK, rest.ModelOf[ent.Project]()).
+		HasResponseModel(http.StatusOK, rest.ModelOf[types.Project]()).
 		HasResponseModel(http.StatusBadRequest, rest.ModelOf[string]()).
 		HasResponseModel(http.StatusUnprocessableEntity, rest.ModelOf[respond.Error]())
 
 	api.Get("/projects").
 		HasDescription("Get projects").
-		HasResponseModel(http.StatusOK, rest.ModelOf[[]ent.Project]()).
+		HasResponseModel(http.StatusOK, rest.ModelOf[[]types.Project]()).
 		HasResponseModel(http.StatusUnprocessableEntity, rest.ModelOf[respond.Error]())
 }

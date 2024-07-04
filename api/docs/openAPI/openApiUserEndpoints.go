@@ -5,7 +5,6 @@ import (
 	"github.com/a-h/rest"
 	"net/http"
 	"portfolio/api/types"
-	"portfolio/database/ent"
 )
 
 func RegisterUserEndpoints() {
@@ -15,14 +14,14 @@ func RegisterUserEndpoints() {
 			Regexp:      `\d+`,
 		}).
 		HasDescription("Get user by uid.").
-		HasResponseModel(http.StatusOK, rest.ModelOf[ent.User]()).
+		HasResponseModel(http.StatusOK, rest.ModelOf[types.User]()).
 		HasResponseModel(http.StatusBadRequest, rest.ModelOf[string]()).
 		HasResponseModel(http.StatusInternalServerError, rest.ModelOf[respond.Error]()).
 		HasResponseModel(http.StatusUnprocessableEntity, rest.ModelOf[respond.Error]())
 
 	api.Post("/register").
 		HasDescription("Register.").
-		HasRequestModel(rest.ModelOf[ent.User]()).
+		HasRequestModel(rest.ModelOf[types.User]()).
 		HasResponseModel(http.StatusCreated, rest.ModelOf[string]()).
 		HasResponseModel(http.StatusBadRequest, rest.ModelOf[string]()).
 		HasResponseModel(http.StatusInternalServerError, rest.ModelOf[respond.Error]()).

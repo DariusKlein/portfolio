@@ -1,6 +1,6 @@
 module openAPI
 
-go 1.22
+go 1.22.2
 
 require (
 	github.com/a-h/respond v0.0.2
