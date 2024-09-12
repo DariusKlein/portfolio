@@ -17,5 +17,10 @@ func AboutPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func createAboutBody(w http.ResponseWriter, r *http.Request) g.Node {
 
-	return Body()
+	return Body(
+		IFrame(
+			Src("/assets/pdf/cv.pdf"),
+			Class("h-screen w-screen"),
+		),
+	)
 }
