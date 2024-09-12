@@ -24,6 +24,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    volumes:
+      - ./backup:/web/assets/json
 
   docs:
     build:

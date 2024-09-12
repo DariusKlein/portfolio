@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"portfolio/api/types"
 	"portfolio/database"
 	"portfolio/database/ent"
 	"portfolio/database/ent/user"
@@ -22,7 +23,7 @@ func GetUser(ctx context.Context, id int) (*ent.User, error) {
 	return u, nil
 }
 
-func CreateUser(ctx context.Context, user ent.User) error {
+func CreateUser(ctx context.Context, user types.RegisterUser) error {
 
 	_, err := database.Client.User.
 		Create().

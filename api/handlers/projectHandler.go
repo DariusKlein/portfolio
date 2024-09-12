@@ -3,12 +3,15 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"os"
 	"portfolio/api/service/jwt"
 	"portfolio/api/service/parse"
 	"portfolio/database/ent"
 	"portfolio/database/query"
 	"strconv"
+	"time"
 )
 
 func CreateProjectHandler(w http.ResponseWriter, r *http.Request) {
@@ -146,6 +149,30 @@ func GetProjectsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+
+	err = json.NewEncoder(w).Encode(p)
+	if err != nil {
+		return
+	}
+}
+
+func GetProjectsBackupHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Print("test")
+	p, err := query.GetProjects(context.Background())
+	if err != nil {
+		UnprocessableEntityHandler(w, err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	backup, _ := json.Marshal(p)
+
+	err = os.WriteFile("/web/assets/json/backup-"+strconv.Itoa(int(time.Now().Unix()))+".json", backup, 0644)
+	if err != nil {
+		UnprocessableEntityHandler(w, err)
+		return
+	}
 
 	err = json.NewEncoder(w).Encode(p)
 	if err != nil {

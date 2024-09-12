@@ -6,18 +6,18 @@ import (
 	"net/http"
 	"portfolio/api/service/bcrypt"
 	"portfolio/api/service/jwt"
-	"portfolio/database/ent"
+	"portfolio/api/types"
 	"portfolio/database/query"
 	"time"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	var u *ent.User
+	var u *types.LoginUser
 
 	isHtmx := r.Header.Get("HX-Request")
 
 	if isHtmx == "true" {
-		u = &ent.User{
+		u = &types.LoginUser{
 			Email:    r.PostFormValue("email"),
 			Password: r.PostFormValue("password"),
 		}

@@ -4,12 +4,13 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"portfolio/api/types"
 	"portfolio/database"
 	"portfolio/database/ent"
 	"portfolio/database/ent/user"
 )
 
-func GetLogin(ctx context.Context, U *ent.User) (*ent.User, error) {
+func GetLogin(ctx context.Context, U *types.LoginUser) (*ent.User, error) {
 	u, err := database.Client.User.
 		Query().
 		Where(user.Email(U.Email)).

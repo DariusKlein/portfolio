@@ -6,22 +6,21 @@ import (
 	"net/http"
 	"portfolio/api/service/bcrypt"
 	"portfolio/api/service/validate"
-	"portfolio/database/ent"
-	"portfolio/database/ent/user"
+	"portfolio/api/types"
 	"portfolio/database/query"
 	"strconv"
 )
 
 func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 
-	var u *ent.User
+	var u *types.RegisterUser
 
 	isHtmx := r.Header.Get("HX-Request")
 
 	if isHtmx == "true" {
-		u = &ent.User{
+		u = &types.RegisterUser{
 			Name: r.PostFormValue("name"),
-			Role: user.Role(r.PostFormValue("role")),
+			//Role: user.Role(r.PostFormValue("role")),
 		}
 	} else {
 		err := json.NewDecoder(r.Body).Decode(&u)
@@ -29,7 +28,7 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 			InternalServerErrorHandler(w, err)
 		}
 	}
-
+	u.Password = "123"
 	if !validate.UserIsValid(u) {
 		BadRequestHandler(w)
 		return
