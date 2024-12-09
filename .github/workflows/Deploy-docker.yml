@@ -27,8 +27,8 @@ jobs:
       run: docker compose build
     - name: Docker push
       run: |
-        docker push docker.dariusklein.nl/portfolio:latest
-        docker push docker.dariusklein.nl/portfolio-docs:latest
+        docker push docker.dariusklein.nl/portfolio
+        docker push docker.dariusklein.nl/portfolio-docs
 
   publish:
   
