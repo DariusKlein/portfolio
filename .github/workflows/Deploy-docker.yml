@@ -42,14 +42,14 @@ jobs:
         sparse-checkout: |
           docker-compose.yml
     - name: copy file
-      run: mv docker-compose.yml /home/darius/portfolio
+      run: mv docker-compose.yml /home/docker/darius/portfolio
     - name: Docker login
       run: docker login docker.dariusklein.nl -u Darius -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Docker pull
       run: |
-        cd /home/darius/portfolio
+        cd /home/docker/darius/portfolio
         docker compose pull
     - name: Docker run
       run: |
-        cd /home/darius/portfolio
+        cd /home/docker/darius/portfolio
         docker compose up -d
