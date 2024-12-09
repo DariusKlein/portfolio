@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   database:
+    container_name: darius-portfolio-database
     image: postgres:alpine
     restart: always
     env_file:
@@ -15,6 +16,7 @@ services:
       retries: 5
 
   portfolio:
+    container_name: darius-portfolio-server
     build: .
     ports:
       - "4000:4000"
@@ -28,6 +30,7 @@ services:
       - ./backup:/web/assets/json
 
   docs:
+    container_name: darius-portfolio-docs
     build:
       context: .
       dockerfile: ./common/docs/Dockerfile
