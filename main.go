@@ -1,9 +1,7 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
 	"github.com/rs/cors"
-	"log"
 	"net/http"
 	"portfolio/api"
 	"portfolio/database"
@@ -11,12 +9,12 @@ import (
 )
 
 func main() {
-	// load .env in runtime environment
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf(".env not found: %v", err)
-		return
-	}
+	//// load .env in runtime environment
+	//err := godotenv.Load()
+	//if err != nil {
+	//	log.Fatalf(".env not found: %v", err)
+	//	return
+	//}
 
 	//connect to database and migrate
 	database.DB()
