@@ -1,2 +1,1 @@
-Portfolio project backend api
-test
+[Mirated to self hosted git](https://gitea.kleinsense.nl/DariusKlein/portfolio)
